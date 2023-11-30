@@ -26,7 +26,12 @@ const LoginUserForm: FC<FormProps> = (props) => {
                 let response : boolean = await postLoginUser(postLogin);         
                 if(response){
                     props.handleAlert(true);
-                    props.setAlertMessage('Inloggning lyckades! Välkommen');                    
+                    props.setAlertMessage('Inloggning lyckades! Välkommen'); 
+
+                    if (props.setIsAuthorized === undefined|| props.setUsername === undefined) return null;
+                    props.setIsAuthorized(response);
+                    props.setUsername(postLogin.username);  
+                                
                     redirect('/Home');
                 }
             } catch (error) {
