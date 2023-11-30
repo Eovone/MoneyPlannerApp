@@ -1,38 +1,88 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { useNavigate } from "react-router-dom";
+import { FormProps } from '../Models/Interfaces/FormProps';
+import { useFormik } from 'formik';
+import { PostUserDto } from '../Models/Dto/PostUserDto';
+import { postLoginUser } from '../Services/ApiService';
 
-interface LoginUserFormProps{
-    onSubmit: (value: string) => void;
-}
+const LoginUserForm: FC<FormProps> = (props) => {
+    const redirect = useNavigate();
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        onSubmit: async values => {
+            let postLogin : PostUserDto = {
+                username: values.username,
+                password: values.password,
+            }
 
-const LoginUserForm: FC<LoginUserFormProps> = (props) => {
-  const [userName, setUserName] = useState<string>("");
-
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    props.onSubmit(userName);
-    // console.log('Username:', submittedUserName);
-    // post user call
-  };
+            try {
+                let response : boolean = await postLoginUser(postLogin);         
+                if(response){
+                    props.handleAlert(true);
+                    props.setAlertMessage('Inloggning lyckades! Välkommen');                    
+                    redirect('/Home');
+                }
+            } catch (error) {
+                props.handleAlert(false);
+                props.setAlertMessage('Inloggning misslyckades!');
+            }
+        },
+    });
 
     return(
-      <div className="container mt-3 border text-center bg-dark">
-        <h2 className='mb-3 text-white'>Logga in</h2>
-        <Form onSubmit={handleFormSubmit}>
-          <Form.Group className="row justify-content-center">
-            <Form.Control
-              className='small-input'
-              type='text'
-              placeholder='Skriv in Användarnamn'
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </Form.Group>
-          <Button variant='primary' type='submit' className='mt-3 mb-3'>
-            Logga in
-          </Button>
+      <Container className='border border-4 border-dark mt-3 p-2'>
+        <Form noValidate onSubmit={formik.handleSubmit}>
+            <Row className='align-items-center'>
+                <Col>
+                    <h1 className='text-light mb-5 text-center'>Logga in</h1>
+                    <Form.Group className="mb-3">
+                        <Form.Label className='text-light'>Användarnamn</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Användarnamn"
+                            name="username"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.username}
+                            isInvalid={formik.touched.username && !!formik.errors.username}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {formik.errors.username}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-1">
+                        <Form.Label className='text-light'>Lösenord</Form.Label>
+                        <Form.Control 
+                            type="password" 
+                            placeholder="Lösenord"
+                            name='password'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                            isInvalid={formik.touched.password && !!formik.errors.password}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {formik.errors.password}
+                        </Form.Control.Feedback>
+                    </Form.Group>                
+
+                    <Button className='m-2' variant="light" type="submit">
+                        Logga in
+                    </Button>
+                    
+                </Col>                               
+            </Row>
         </Form>
-      </div>   
+
+    </Container>   
     )    
 }
   

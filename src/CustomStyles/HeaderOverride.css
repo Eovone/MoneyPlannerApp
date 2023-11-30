@@ -4,4 +4,16 @@
 
 .white-text {
     color: white;
-  }
+}
+
+.custom-centered-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: fit-content;
+}
+
+.custom-centered-nav > * {
+    margin: 0 5px;
+}
