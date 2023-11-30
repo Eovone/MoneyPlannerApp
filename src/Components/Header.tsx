@@ -7,10 +7,41 @@ import { Link } from "react-router-dom";
 
 interface HeaderProps{
     userName: string;
+    isAuthorized: boolean;
 }
 
-const Header: FC<HeaderProps> = (props) => {
+const Header: FC<HeaderProps> = (props) => {    
     return(
+        props.isAuthorized ? (
+            <Navbar className="bg-body-tertiary">
+            <Container>
+                <Navbar.Brand className='white-text'>MoneyPlanner</Navbar.Brand>
+                <Navbar.Toggle />
+                <Navbar.Collapse className="justify-content-end">
+                    <Nav className="custom-centered-nav">
+                        <Link to="/home">
+                            <Button variant="light">
+                                Hem
+                            </Button>
+                        </Link>
+                        <Link to="/incomes">
+                            <Button variant="light">
+                                Inkomster
+                            </Button>
+                        </Link>
+                        <Link to="/expenses">
+                            <Button variant="light">
+                                Utgifter
+                            </Button>
+                        </Link>
+                    </Nav>
+                    <Navbar.Text className='white-text'>
+                        Inloggad som: {props.userName}
+                    </Navbar.Text>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar> 
+        ) : (
         <Navbar className="bg-body-tertiary">
             <Container>
                 <Navbar.Brand className='white-text'>MoneyPlanner</Navbar.Brand>
@@ -29,11 +60,13 @@ const Header: FC<HeaderProps> = (props) => {
                         </Link>
                     </Nav>
                     <Navbar.Text className='white-text'>
-                        {props.userName !== '' ? `Inloggad som: ${props.userName}` : 'Ej inloggad'}
+                        Ej inloggad
                     </Navbar.Text>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+        )
+    
     )    
 }
   
