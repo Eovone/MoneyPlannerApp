@@ -8,6 +8,7 @@ import { FormProps } from '../Models/Interfaces/FormProps';
 import { useFormik } from 'formik';
 import { PostUserDto } from '../Models/Dto/PostUserDto';
 import { postLoginUser } from '../Services/ApiService';
+import { LoggedInUserDto } from '../Models/Dto/LoggedInUserDto';
 
 const LoginUserForm: FC<FormProps> = (props) => {
     const redirect = useNavigate();
@@ -23,14 +24,15 @@ const LoginUserForm: FC<FormProps> = (props) => {
             }
 
             try {
-                let response : boolean = await postLoginUser(postLogin);         
-                if(response){
+                let response : LoggedInUserDto = await postLoginUser(postLogin);
+                if(response.isAuthorized){
                     props.handleAlert(true);
                     props.setAlertMessage('Inloggning lyckades! Välkommen'); 
 
-                    if (props.setIsAuthorized === undefined|| props.setUsername === undefined) return null;
-                    props.setIsAuthorized(response);
-                    props.setUsername(postLogin.username);  
+                    if (props.setIsAuthorized === undefined|| props.setUsername === undefined || props.setUserId === undefined) return null;
+                    props.setIsAuthorized(response.isAuthorized);
+                    props.setUsername(postLogin.username);
+                    props.setUserId(response.id);  
                                 
                     redirect('/Home');
                 }
