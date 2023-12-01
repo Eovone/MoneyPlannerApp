@@ -61,16 +61,16 @@ const formik = useFormik({
 
     return(
         
-      <Container className='border border-4 border-dark mt-3 p-2 '>
+      <Container className='mt-3 p-2 d-flex justify-content-center darkBackground w-50'>
         <Form noValidate onSubmit={formik.handleSubmit}>
             <Row className='align-items-center'>
                 <Col>
-                    <h1 className='text-light mb-5 text-center'>Registrera ny användare</h1>
-                    <Form.Group className="mb-3">
-                        <Form.Label className='text-light'>Användarnamn</Form.Label>
+                    <h1 className='mb-3 text-center mp-green-text'>Registrera ny användare</h1>
+                    <Form.Group className="mb-3 d-flex align-items-center">
+                        <Form.Label column md={4} className='mx-2 text-light text-md-end'>Användarnamn: </Form.Label>
+                        <Col md={8}>
                         <Form.Control
-                            type="text"
-                            placeholder="Användarnamn"
+                            type="text"                          
                             name="username"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -80,13 +80,14 @@ const formik = useFormik({
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.username}
                         </Form.Control.Feedback>
+                        </Col>
                     </Form.Group>                  
 
-                    <Form.Group className="mb-1">
-                        <Form.Label className='text-light'>Lösenord</Form.Label>
+                    <Form.Group className="mb-1 d-flex">
+                        <Form.Label column md={4} className='mx-2 text-light text-md-end'>Lösenord: </Form.Label>
+                        <Col md={8}>
                         <Form.Control 
                             type="password" 
-                            placeholder="Lösenord"
                             name='password'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -96,12 +97,14 @@ const formik = useFormik({
                         <Form.Control.Feedback type='invalid'>
                             {formik.errors.password}
                         </Form.Control.Feedback>
+                        </Col>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3 d-flex">
+                        <Form.Label column md={4} className='mx-2 text-light text-md-end'>Upprepa Lösenord: </Form.Label>
+                        <Col md={8}>
                         <Form.Control 
                             type="password" 
-                            placeholder="Upprepa Lösenord" 
                             name='confirmPassword'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -111,11 +114,15 @@ const formik = useFormik({
                         <Form.Control.Feedback type='invalid'>
                             {formik.errors.confirmPassword}
                         </Form.Control.Feedback> 
+                        </Col>
                     </Form.Group>
 
-                    <Button className='m-1' variant="light" type="submit">
-                        Registera
-                    </Button>
+                    <div className='text-center'>
+                        <Button className='m-1' variant="primary" type="submit">
+                            Registera
+                        </Button>
+                    </div>
+                    
                      
                 </Col>                               
             </Row>

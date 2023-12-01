@@ -2,3 +2,9 @@
     width: 50%;
     max-width: 300px; 
   }
+
+.darkBackground {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}

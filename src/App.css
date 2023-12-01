@@ -1,27 +1,38 @@
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  animation: colorChange 10s infinite alternate;
-  background-color: black;
-  text-align: center;
-  color: white;
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+body  {
+  background-image: url('https://images.pexels.com/photos/4475525/pexels-photo-4475525.jpeg');
+  background-size:cover;
+  -webkit-animation: slidein 100s;
+  animation: slidein 100s;
+
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+
+  
+  font-family: 'Roboto Mono', monospace;              
 }
 
-@keyframes colorChange {
-  0% {
-    background-color: rgb(54, 52, 52);
-  }
-  25% {
-    background-color: rgb(91, 90, 90);
-  }
-  50% {
-    background-color: gray;
-  }
-  75% {    
-    background-color: rgb(91, 90, 90);
-  }
-  100% {
-    background-color: rgb(54, 52, 52);
-  }
+.mp-green-text{  
+  color: rgb(136, 185, 136) !important;  
+}
+.mp-green-bg{
+  background-color: rgb(136, 185, 136) !important; 
+}
+
+@-webkit-keyframes slidein {
+from {background-position: top; background-size:3000px; }
+to {background-position: -100px 0px;background-size:2750px;}
+}
+
+@keyframes slidein {
+from {background-position: top;background-size:3000px; }
+to {background-position: -100px 0px;background-size:2750px;}
+
 }
