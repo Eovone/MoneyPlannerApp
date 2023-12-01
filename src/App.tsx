@@ -10,6 +10,8 @@ import { useState } from 'react';
 import Header from './Components/Header';
 import LoginUserForm from './Components/LoginUserForm';
 import Alert from 'react-bootstrap/Alert';
+import IncomeView from './Views/IncomeView';
+import ExpenseView from './Views/ExpenseView';
 
 function App() {
   const [userName, setUserName] = useState<string>("");
@@ -48,6 +50,8 @@ function App() {
                                                 setAlertMessage={setAlertMessage} 
                                                 setIsAuthorized={setIsAuthorized}
                                                 setUsername={setUserName} />} />
+        <Route path='/incomes' element={<IncomeView /> }/>
+        <Route path='/expenses' element={<ExpenseView /> }/>
       </Routes>
     </div>
   );

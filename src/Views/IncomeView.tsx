@@ -3,21 +3,21 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-interface HomeProps {
-  isAuthorized: boolean;
+interface IncomeViewProps {
+
 }
 
-const Home: FC<HomeProps> = (props) => {
+const IncomeView: FC<IncomeViewProps> = (props) => {
 
     return(
       <Container className='darkBackground'>
         <Row>
           <Col>
-            <h1 className='text-center mp-green-text'>Din Ekonomi</h1>
+            <h1 className='text-center mp-green-text'>Inkomster</h1>
           </Col>
         </Row>
       </Container>     
     )    
 }
   
-  export default Home;
+  export default IncomeView;
