@@ -15,12 +15,13 @@ import ExpenseView from './Views/ExpenseView';
 
 function App() {
   const [userName, setUserName] = useState<string>("");
+  const [userId, setUserId] = useState<number>();
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertSuccess, setAlertSuccess] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
-  const handleAlert = (success: boolean) => {
+  const handleAlert = (success: boolean) => {    
     success ? setAlertSuccess(true) : setAlertSuccess(false);
 
     setShowAlert(true);
@@ -49,7 +50,8 @@ function App() {
         <Route path='/' element={<LoginUserForm handleAlert={handleAlert} 
                                                 setAlertMessage={setAlertMessage} 
                                                 setIsAuthorized={setIsAuthorized}
-                                                setUsername={setUserName} />} />
+                                                setUsername={setUserName} 
+                                                setUserId={setUserId} />} />
         <Route path='/incomes' element={<IncomeView /> }/>
         <Route path='/expenses' element={<ExpenseView /> }/>
       </Routes>
