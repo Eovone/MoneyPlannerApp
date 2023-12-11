@@ -13,14 +13,13 @@ const Home: FC<HomeProps> = (props) => {
 const redirect = useNavigate();
 
     useEffect(() => {
-      console.log("useEffect körs")
         if(props.isAuthorized === false || props.isAuthorized === undefined){
           redirect('/');
         }
     }, [props.isAuthorized, redirect]);
 
     return(
-      <Container className='darkBackground'>
+      <Container className='darkBackground mt-5'>
         <Row>
           <Col>
             <h1 className='text-center mp-green-text'>Din Ekonomi</h1>
