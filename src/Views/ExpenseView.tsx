@@ -10,7 +10,7 @@ interface ExpenseViewProps {
 const ExpenseView: FC<ExpenseViewProps> = (props) => {
 
     return(
-      <Container className='darkBackground'>
+      <Container className='darkBackground mt-5'>
         <Row>
           <Col>
             <h1 className='text-center mp-green-text'>Utgifter</h1>

@@ -30,6 +30,8 @@ function App() {
       setShowAlert(false);
     }, 5000);
   }
+ 
+  
 
   return (
     <div>     
@@ -52,7 +54,9 @@ function App() {
                                                 setIsAuthorized={setIsAuthorized}
                                                 setUsername={setUserName} 
                                                 setUserId={setUserId} />} />
-        <Route path='/incomes' element={<IncomeView /> }/>
+        <Route path='/incomes' element={<IncomeView handleAlert={handleAlert} 
+                                                    setAlertMessage={setAlertMessage}
+                                                    userId={userId}/> }/>
         <Route path='/expenses' element={<ExpenseView /> }/>
       </Routes>
     </div>
