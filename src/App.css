@@ -24,6 +24,13 @@ body  {
 .mp-green-bg{
   background-color: rgb(136, 185, 136) !important; 
 }
+.mp-darkgreen-bg{
+  background-color: rgb(87, 104, 87) !important;
+}
+.custom-hr {
+  border: none;
+  border-top: 3px solid rgb(243, 241, 241);
+}
 
 @-webkit-keyframes slidein {
 from {background-position: top; background-size:3000px; }
@@ -33,5 +40,4 @@ to {background-position: -100px 0px;background-size:2750px;}
 @keyframes slidein {
 from {background-position: top;background-size:3000px; }
 to {background-position: -100px 0px;background-size:2750px;}
-
 }
