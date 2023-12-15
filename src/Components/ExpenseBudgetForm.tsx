@@ -2,11 +2,10 @@ import { FC } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { BudgetFormProps } from '../Models/Interfaces/BudgetFormProps';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 
-const ExpenseBudgetForm: FC<BudgetFormProps> = (props) => {      
+const ExpenseBudgetForm: FC = () => {      
 
 const formik = useFormik({
     initialValues: {

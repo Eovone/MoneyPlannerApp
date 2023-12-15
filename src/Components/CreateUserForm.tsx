@@ -9,10 +9,12 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
-import { FormProps } from '../Models/Interfaces/FormProps';
+import { useDispatch } from 'react-redux';
+import { showAlert } from '../Store/actionCreators';
 
-const CreateUserForm: FC<FormProps> = (props) => {
-  const navigate = useNavigate();
+const CreateUserForm: FC = () => {
+  const navigate = useNavigate();   
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -46,14 +48,12 @@ const formik = useFormik({
       
       try {
           let userRepsonse: User = await postUser(postUservar);
-          if (userRepsonse !== undefined) {
-            props.setAlertMessage('Ditt konto har skapats!')
-            props.handleAlert(true);
+          if (userRepsonse !== undefined) {            
+            dispatch(showAlert({ success: true, message: "Ditt konto har skapats!" }));  
             navigate('/');
           }   
-      } catch (error) {
-            props.setAlertMessage('Det gick inte att skapa kontot, försök igen!');
-            props.handleAlert(false);
+      } catch (error) {            
+            dispatch(showAlert({ success: false, message: "Det gick inte att skapa kontot, försök igen!" }));  
             console.log(error);
       }      
   },

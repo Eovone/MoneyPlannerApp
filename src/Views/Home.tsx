@@ -3,20 +3,18 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AppState } from '../Store/Store';
 
-interface HomeProps {
-  isAuthorized: boolean;
-}
+const Home: FC = () => {
+  const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
+  const redirect = useNavigate();
 
-const Home: FC<HomeProps> = (props) => {
-
-const redirect = useNavigate();
-
-    useEffect(() => {
-        if(props.isAuthorized === false || props.isAuthorized === undefined){
-          redirect('/');
-        }
-    }, [props.isAuthorized, redirect]);
+  useEffect(() => {
+    if (isAuthorized === false) {
+      redirect('/');
+    }
+  }, [isAuthorized, redirect]);
 
     return(
       <Container className='darkBackground mt-5'>

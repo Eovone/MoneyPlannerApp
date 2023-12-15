@@ -4,15 +4,16 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { AppState } from '../Store/Store';
 
-interface HeaderProps{
-    userName: string;
-    isAuthorized: boolean;
-}
+const Header: FC = () => { 
 
-const Header: FC<HeaderProps> = (props) => {    
+const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
+const userName = useSelector((state: AppState) => state.userName);
+
     return(
-        props.isAuthorized ? (
+        isAuthorized ? (
             <Navbar className="bg-body-tertiary">
             <Container>
                 <Navbar.Brand className='white-text'>MoneyPlanner</Navbar.Brand>
@@ -36,7 +37,7 @@ const Header: FC<HeaderProps> = (props) => {
                         </Link>
                     </Nav>
                     <Navbar.Text className='white-text'>
-                        Inloggad som: {props.userName}
+                        Inloggad som: {userName}
                     </Navbar.Text>
                 </Navbar.Collapse>
             </Container>
@@ -70,4 +71,4 @@ const Header: FC<HeaderProps> = (props) => {
     )    
 }
   
-  export default Header;
+export default Header;
