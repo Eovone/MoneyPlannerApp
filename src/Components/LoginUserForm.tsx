@@ -9,8 +9,11 @@ import { useFormik } from 'formik';
 import { PostUserDto } from '../Models/Dto/PostUserDto';
 import { postLoginUser } from '../Services/ApiService';
 import { LoggedInUserDto } from '../Models/Dto/LoggedInUserDto';
+import { useDispatch } from 'react-redux';
+import { updateUsername, setAuthStatus } from '../Store/actionCreators';
 
 const LoginUserForm: FC<FormProps> = (props) => {
+    const dispatch = useDispatch();
     const redirect = useNavigate();
     const formik = useFormik({
         initialValues: {
@@ -29,11 +32,13 @@ const LoginUserForm: FC<FormProps> = (props) => {
                     props.handleAlert(true);
                     props.setAlertMessage('Inloggning lyckades! Välkommen'); 
 
-                    if (props.setIsAuthorized === undefined|| props.setUsername === undefined || props.setUserId === undefined) return null;
-                    props.setIsAuthorized(response.isAuthorized);
-                    props.setUsername(postLogin.username);
+                    if (props.setUserId === undefined) return null;
+
+                    dispatch(setAuthStatus(response.isAuthorized));
+                    dispatch(updateUsername(postLogin.username));
+
                     props.setUserId(response.id);  
-                                
+
                     redirect('/Home');
                 }
             } catch (error) {

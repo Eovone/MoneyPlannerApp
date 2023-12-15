@@ -14,9 +14,7 @@ import IncomeView from './Views/IncomeView';
 import ExpenseView from './Views/ExpenseView';
 
 function App() {
-  const [userName, setUserName] = useState<string>("");
   const [userId, setUserId] = useState<number>();
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertSuccess, setAlertSuccess] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -30,13 +28,10 @@ function App() {
       setShowAlert(false);
     }, 5000);
   }
- 
-  
 
   return (
     <div>     
-      <Header userName={userName} 
-              isAuthorized={isAuthorized} />
+      <Header />
 
       {showAlert ? <Alert variant={ alertSuccess ? 'success' : 'danger' } 
                           onClose={() => setShowAlert(false)} 
@@ -46,13 +41,11 @@ function App() {
       </Alert> : null }
 
       <Routes>
-        <Route path='/Home' element={<Home isAuthorized={isAuthorized} />} />
+        <Route path='/Home' element={<Home />} />
         <Route path='/register' element={<CreateUserForm handleAlert={handleAlert} 
                                                          setAlertMessage={setAlertMessage} />} />
         <Route path='/' element={<LoginUserForm handleAlert={handleAlert} 
-                                                setAlertMessage={setAlertMessage} 
-                                                setIsAuthorized={setIsAuthorized}
-                                                setUsername={setUserName} 
+                                                setAlertMessage={setAlertMessage}                                                                                                 
                                                 setUserId={setUserId} />} />
         <Route path='/incomes' element={<IncomeView handleAlert={handleAlert} 
                                                     setAlertMessage={setAlertMessage}
