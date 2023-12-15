@@ -6,23 +6,26 @@ import IncomeBudgetForm from '../Components/IncomeBudgetForm';
 import { BudgetFormProps } from '../Models/Interfaces/BudgetFormProps';
 import { Income } from '../Models/Income';
 import { getIncomes } from '../Services/ApiService';
+import { useSelector } from 'react-redux';
+import { AppState } from '../Store/Store';
 
 const IncomeView: FC<BudgetFormProps> = (props) => {
+  const userId = useSelector((state: AppState) => state.userId);
   const [listOfIncomes, setListOfIncomes] = useState<Income[]>([]);
 
   useEffect(() => {
     const fetchIncomes = async () => {
-      if (props.userId === undefined) return;
       try {
-        const responseList: Income[] = await getIncomes(props.userId);
+        const responseList: Income[] = await getIncomes(userId);
         setListOfIncomes(responseList);
       } catch (error) {
         props.handleAlert(true);
         props.setAlertMessage("Något gick fel när vi försökte hämta dina Inkomster.")
       }
     };
+    console.log("fetching incomes");
     fetchIncomes();
-}, [props.userId]);
+  }, [props, userId]);
 
 const getFormattedDay = (date: Date) => {
   const day = new Date(date).getDate();
@@ -40,8 +43,7 @@ const getFormattedDay = (date: Date) => {
         <Row>
           <Col>
             <IncomeBudgetForm handleAlert={props.handleAlert} 
-                        setAlertMessage={props.setAlertMessage}
-                        userId={props.userId}/>
+                              setAlertMessage={props.setAlertMessage} />
           </Col>
           <Col>
             <div>

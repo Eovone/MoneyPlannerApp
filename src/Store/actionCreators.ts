@@ -1,4 +1,4 @@
-import { SET_AUTH_STATUS, UPDATE_USERNAME } from "./actionTypes";
+import { SET_AUTH_STATUS, SET_USER_ID, UPDATE_USERNAME } from "./actionTypes";
 
 export const updateUsername = (newName: string) => ({
     type: UPDATE_USERNAME,
@@ -8,4 +8,9 @@ export const updateUsername = (newName: string) => ({
 export const setAuthStatus = (status: boolean) => ({
     type: SET_AUTH_STATUS,
     payload: status,
+});
+
+export const setUserId = (userId: number) => ({
+    type: SET_USER_ID,
+    payload: userId,
 });

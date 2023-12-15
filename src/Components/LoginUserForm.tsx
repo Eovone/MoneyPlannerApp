@@ -10,7 +10,7 @@ import { PostUserDto } from '../Models/Dto/PostUserDto';
 import { postLoginUser } from '../Services/ApiService';
 import { LoggedInUserDto } from '../Models/Dto/LoggedInUserDto';
 import { useDispatch } from 'react-redux';
-import { updateUsername, setAuthStatus } from '../Store/actionCreators';
+import { updateUsername, setAuthStatus, setUserId } from '../Store/actionCreators';
 
 const LoginUserForm: FC<FormProps> = (props) => {
     const dispatch = useDispatch();
@@ -32,12 +32,13 @@ const LoginUserForm: FC<FormProps> = (props) => {
                     props.handleAlert(true);
                     props.setAlertMessage('Inloggning lyckades! Välkommen'); 
 
-                    if (props.setUserId === undefined) return null;
+                    // if (props.setUserId === undefined) return null;
 
                     dispatch(setAuthStatus(response.isAuthorized));
                     dispatch(updateUsername(postLogin.username));
+                    dispatch(setUserId(response.id));
 
-                    props.setUserId(response.id);  
+                    // props.setUserId(response.id);  
 
                     redirect('/Home');
                 }

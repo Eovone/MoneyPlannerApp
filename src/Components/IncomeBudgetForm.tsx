@@ -8,8 +8,12 @@ import { useFormik } from 'formik';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
 import { Income } from '../Models/Income';
 import { postIncome } from '../Services/ApiService';
+import { useSelector } from 'react-redux';
+import { AppState } from '../Store/Store';
 
-const IncomeBudgetForm: FC<BudgetFormProps> = (props) => {      
+const IncomeBudgetForm: FC<BudgetFormProps> = (props) => {  
+    
+const userId = useSelector((state: AppState) => state.userId);    
 
 const formik = useFormik({
     initialValues: {
@@ -26,14 +30,11 @@ const formik = useFormik({
             reOccuring: values.reOccuring,
         }
         try {   
-            if (props.userId === undefined) return;
-            let responseIncome : Income = await postIncome(postIncomeDto, props.userId);
+            let responseIncome : Income = await postIncome(postIncomeDto, userId);
             if(responseIncome){
                 props.handleAlert(true);
                 props.setAlertMessage('Inkomst är skapad.');               
                 resetForm();
-
-                // TODO: Re-fetch GetAllUserIncomes
             }
         } catch (error) {
             props.handleAlert(false);
