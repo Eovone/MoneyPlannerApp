@@ -1,17 +1,23 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { SET_AUTH_STATUS, SET_USER_ID, UPDATE_USERNAME } from './actionTypes';
+import { HIDE_ALERT, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from './actionTypes';
 
 export interface AppState {
   userName: string;
   isAuthorized: boolean;
   userId: number;
-}
+  alertInfo: {
+    showAlert: boolean;
+    success: boolean;
+    message: string;
+  };
+};
 
 const initialState: AppState = {
   userName: '',
   isAuthorized: false,
   userId: 0,
+  alertInfo: { showAlert: false, success: false, message: ""},
 };
 
 const userNameReducer = (state = initialState.userName, action: any) => {
@@ -41,10 +47,32 @@ const userIdReducer = (state = initialState.userId, action: any) => {
   }
 };
 
+const alertReducer = (state = initialState.alertInfo, action: any) => {
+  switch (action.type) {
+    case SHOW_ALERT:
+      return {
+        ...state,
+        showAlert: true,
+        success: action.payload.success,
+        message: action.payload.message,
+      };
+    case HIDE_ALERT:
+      return {
+        ...state,
+        showAlert: false,
+        success: false,
+        message: "",
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   userName: userNameReducer,
   isAuthorized: authReducer,
   userId: userIdReducer,
+  alertInfo: alertReducer,
 });
 
 const store = configureStore({

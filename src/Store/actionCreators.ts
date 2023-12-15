@@ -1,4 +1,4 @@
-import { SET_AUTH_STATUS, SET_USER_ID, UPDATE_USERNAME } from "./actionTypes";
+import { HIDE_ALERT, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from "./actionTypes";
 
 export const updateUsername = (newName: string) => ({
     type: UPDATE_USERNAME,
@@ -13,4 +13,13 @@ export const setAuthStatus = (status: boolean) => ({
 export const setUserId = (userId: number) => ({
     type: SET_USER_ID,
     payload: userId,
+});
+
+export const showAlert = (alertInfo: { success: boolean; message: string; }) => ({
+    type: SHOW_ALERT,
+    payload: alertInfo,
+});
+
+export const hideAlert = () => ({
+    type: HIDE_ALERT,
 });

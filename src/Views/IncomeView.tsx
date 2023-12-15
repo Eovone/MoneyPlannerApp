@@ -3,14 +3,16 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import IncomeBudgetForm from '../Components/IncomeBudgetForm';
-import { BudgetFormProps } from '../Models/Interfaces/BudgetFormProps';
 import { Income } from '../Models/Income';
 import { getIncomes } from '../Services/ApiService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
+import { showAlert } from '../Store/actionCreators';
 
-const IncomeView: FC<BudgetFormProps> = (props) => {
+const IncomeView: FC = () => {
+  const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
+
   const [listOfIncomes, setListOfIncomes] = useState<Income[]>([]);
 
   useEffect(() => {
@@ -18,14 +20,12 @@ const IncomeView: FC<BudgetFormProps> = (props) => {
       try {
         const responseList: Income[] = await getIncomes(userId);
         setListOfIncomes(responseList);
-      } catch (error) {
-        props.handleAlert(true);
-        props.setAlertMessage("Något gick fel när vi försökte hämta dina Inkomster.")
+      } catch (error) {        
+        dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Inkomster." })); 
       }
-    };
-    console.log("fetching incomes");
+    };    
     fetchIncomes();
-  }, [props, userId]);
+  }, [userId, dispatch]);
 
 const getFormattedDay = (date: Date) => {
   const day = new Date(date).getDate();
@@ -41,10 +41,11 @@ const getFormattedDay = (date: Date) => {
           </Col>
         </Row>
         <Row>
+
           <Col>
-            <IncomeBudgetForm handleAlert={props.handleAlert} 
-                              setAlertMessage={props.setAlertMessage} />
+            <IncomeBudgetForm />
           </Col>
+
           <Col>
             <div>
               <h4 className='text-center mp-green-text'>Månadsvis</h4>

@@ -2,17 +2,18 @@ import { FC } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { BudgetFormProps } from '../Models/Interfaces/BudgetFormProps';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
 import { Income } from '../Models/Income';
 import { postIncome } from '../Services/ApiService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
+import { showAlert } from '../Store/actionCreators';
 
-const IncomeBudgetForm: FC<BudgetFormProps> = (props) => {  
-    
+const IncomeBudgetForm: FC = () => {  
+
+const dispatch = useDispatch();
 const userId = useSelector((state: AppState) => state.userId);    
 
 const formik = useFormik({
@@ -31,14 +32,12 @@ const formik = useFormik({
         }
         try {   
             let responseIncome : Income = await postIncome(postIncomeDto, userId);
-            if(responseIncome){
-                props.handleAlert(true);
-                props.setAlertMessage('Inkomst är skapad.');               
+            if(responseIncome){                  
+                dispatch(showAlert({ success: true, message: "Inkomst är skapad." }));             
                 resetForm();
             }
         } catch (error) {
-            props.handleAlert(false);
-            props.setAlertMessage('Något gick fel, försök igen!');
+            dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               
         }
     },
 }); 

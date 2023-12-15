@@ -4,15 +4,14 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
-import { FormProps } from '../Models/Interfaces/FormProps';
 import { useFormik } from 'formik';
 import { PostUserDto } from '../Models/Dto/PostUserDto';
 import { postLoginUser } from '../Services/ApiService';
 import { LoggedInUserDto } from '../Models/Dto/LoggedInUserDto';
 import { useDispatch } from 'react-redux';
-import { updateUsername, setAuthStatus, setUserId } from '../Store/actionCreators';
+import { updateUsername, setAuthStatus, setUserId, showAlert } from '../Store/actionCreators';
 
-const LoginUserForm: FC<FormProps> = (props) => {
+const LoginUserForm: FC = () => {
     const dispatch = useDispatch();
     const redirect = useNavigate();
     const formik = useFormik({
@@ -29,22 +28,16 @@ const LoginUserForm: FC<FormProps> = (props) => {
             try {
                 let response : LoggedInUserDto = await postLoginUser(postLogin);
                 if(response.isAuthorized){
-                    props.handleAlert(true);
-                    props.setAlertMessage('Inloggning lyckades! Välkommen'); 
 
-                    // if (props.setUserId === undefined) return null;
-
+                    dispatch(showAlert({ success: true, message: "Inloggning lyckades! Välkommen" }));  
                     dispatch(setAuthStatus(response.isAuthorized));
                     dispatch(updateUsername(postLogin.username));
                     dispatch(setUserId(response.id));
 
-                    // props.setUserId(response.id);  
-
                     redirect('/Home');
                 }
             } catch (error) {
-                props.handleAlert(false);
-                props.setAlertMessage('Inloggning misslyckades!');
+                dispatch(showAlert({ success: false, message: "Inloggning misslyckades!" }));
             }
         },
     });
