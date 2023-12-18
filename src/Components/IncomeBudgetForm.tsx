@@ -35,6 +35,7 @@ const formik = useFormik({
             if(responseIncome){                  
                 dispatch(showAlert({ success: true, message: "Inkomst är skapad." }));             
                 resetForm();
+                // TODO: fetch incomes
             }
         } catch (error) {
             dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               

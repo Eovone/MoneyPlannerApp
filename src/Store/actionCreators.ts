@@ -1,19 +1,28 @@
-import { HIDE_ALERT, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from "./actionTypes";
+import { HIDE_ALERT, RESET_STATE, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from "./actionTypes";
 
-export const updateUsername = (newName: string) => ({
-    type: UPDATE_USERNAME,
-    payload: newName,
-});
+export const updateUsername = (newName: string) => {
+    localStorage.setItem('username', newName);
+    return {
+        type: UPDATE_USERNAME,
+        payload: newName,
+    };
+};
 
-export const setAuthStatus = (status: boolean) => ({
-    type: SET_AUTH_STATUS,
-    payload: status,
-});
+export const setAuthStatus = (status: boolean) => {
+    localStorage.setItem('isAuthorized', status.toString());
+    return {
+        type: SET_AUTH_STATUS,
+        payload: status,
+    };
+};
 
-export const setUserId = (userId: number) => ({
-    type: SET_USER_ID,
-    payload: userId,
-});
+export const setUserId = (userId: number) => {
+    localStorage.setItem('userId', userId.toString());
+    return {
+        type: SET_USER_ID,
+        payload: userId,
+    };
+};
 
 export const showAlert = (alertInfo: { success: boolean; message: string; }) => ({
     type: SHOW_ALERT,
@@ -22,4 +31,8 @@ export const showAlert = (alertInfo: { success: boolean; message: string; }) => 
 
 export const hideAlert = () => ({
     type: HIDE_ALERT,
+});
+
+export const resetState = () => ({
+    type: RESET_STATE,
 });

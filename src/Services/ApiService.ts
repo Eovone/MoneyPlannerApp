@@ -38,3 +38,12 @@ export const getIncomes = async (userId: number) => {
          console.error('Error getting incomes:', error);
      }  
 }
+
+export const updateIncome = async (postIncomeDto: PostIncomeDto, incomeId: number) => {    
+    try {
+        return await axios.put(`${localhost}/Income/${incomeId}`, postIncomeDto)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error updating income:', error);
+     }  
+}

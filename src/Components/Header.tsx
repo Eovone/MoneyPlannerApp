@@ -4,13 +4,21 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
+import { resetState } from '../Store/actionCreators';
 
 const Header: FC = () => { 
+    
+const dispatch = useDispatch();
 
 const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
 const userName = useSelector((state: AppState) => state.userName);
+
+const handleLogout = () => {
+    localStorage.clear();
+    dispatch(resetState());
+};
 
     return(
         isAuthorized ? (
@@ -37,8 +45,13 @@ const userName = useSelector((state: AppState) => state.userName);
                         </Link>
                     </Nav>
                     <Navbar.Text className='white-text'>
-                        Inloggad som: {userName}
+                        {userName}
                     </Navbar.Text>
+                    <Button variant='light' 
+                            onClick={handleLogout}
+                            className='mx-2'>
+                        Logga ut
+                    </Button>
                 </Navbar.Collapse>
             </Container>
         </Navbar> 
