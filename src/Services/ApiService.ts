@@ -47,3 +47,12 @@ export const updateIncome = async (postIncomeDto: PostIncomeDto, incomeId: numbe
          console.error('Error updating income:', error);
      }  
 }
+
+export const deleteIncome = async (id: number) => {    
+    try {
+        return await axios.delete(`${localhost}/Income/${id}`)
+                          .then(response => response.status);
+     } catch (error) {
+         console.error('Error deleting income:', error);
+     }  
+}
