@@ -4,26 +4,36 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import IncomeBudgetForm from '../Components/IncomeBudgetForm';
 import { Income } from '../Models/Income';
-import { getIncomes } from '../Services/ApiService';
+import { deleteIncome, getIncomes, updateIncome } from '../Services/ApiService';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
 import { showAlert } from '../Store/actionCreators';
+import { Button } from 'react-bootstrap';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import IncomeEditModal from '../Components/IncomeEditModal';
+import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
+import IncomeDeleteModal from '../Components/IncomeDeleteModal';
 
 const IncomeView: FC = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
 
   const [listOfIncomes, setListOfIncomes] = useState<Income[]>([]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  useEffect(() => {
-    const fetchIncomes = async () => {
-      try {
-        const responseList: Income[] = await getIncomes(userId);
-        setListOfIncomes(responseList);
-      } catch (error) {        
-        dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Inkomster." })); 
-      }
-    };    
+  const fetchIncomes = async () => {
+    try {
+      const responseList: Income[] = await getIncomes(userId);
+      setListOfIncomes(responseList);
+    } catch (error) {        
+      dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Inkomster." })); 
+    }
+  };    
+
+  useEffect(() => {    
     fetchIncomes();
   }, [userId, dispatch]);
 
@@ -31,6 +41,47 @@ const getFormattedDay = (date: Date) => {
   const day = new Date(date).getDate();
   const suffix = (day === 1 || day === 2 || day === 21 || day === 31) ? 'a' : 'e';
   return `${day}${suffix}`;
+};
+
+const handleEdit = (income: Income) => {  
+  setSelectedIncome(income);
+  setShowEditModal(true);
+};
+
+const handleClose = () => {
+  setShowEditModal(false);
+  setSelectedIncome(null);
+};
+
+const handleClickDelete = (income: Income) => {
+  setSelectedIncome(income);
+  setShowDeleteModal(true);
+};
+
+const handleDelete = async (incomeId: number) => {
+  setShowDeleteModal(false);
+  try {
+    let responseStatus = await deleteIncome(incomeId);
+    if (responseStatus === 204) {
+      dispatch(showAlert({ success: true, message: "Din Inkomst är borttagen." }));
+      setListOfIncomes(prevState => prevState.filter(income => income.id !== incomeId));
+    }
+    else {
+      dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));  
+    }
+  } catch {
+    dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));
+  }
+};
+
+const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number) => {
+  try{
+    const responseIncome: Income = await updateIncome(updatedIncome, incomeId);
+    if (responseIncome) dispatch(showAlert({ success: true, message: "Din Inkomst är uppdaterad." }));
+    fetchIncomes();
+  } catch (error) {
+    dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte uppdatera din Inkomst." }));
+  }
 };
 
     return(
@@ -43,8 +94,9 @@ const getFormattedDay = (date: Date) => {
         <Row>
 
           <Col>
-            <IncomeBudgetForm />
-          </Col>
+            <h3 className='text-center mp-green-text mb-3'>Ny Inkomst</h3>
+            <IncomeBudgetForm fetchIncomes={fetchIncomes}/>
+          </Col>          
 
           <Col>
             <div>
@@ -53,9 +105,15 @@ const getFormattedDay = (date: Date) => {
                 .filter((income) => income.reOccuring)
                 .map((income) => (
                   <div key={income.id} className='text-light text-center p-1'>
-                    {/* ADD EDIT BUTTON */}
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                    <Button variant='warning' onClick={() => handleEdit(income)}>
+                      <EditIcon />
+                    </Button>
                     <p className='fw-bold'>{income.title}</p>
-                     {/* ADD DELETE BUTTON */}
+                    <Button variant='danger' onClick={() => handleClickDelete(income)}>
+                      <DeleteForeverIcon />
+                    </Button>
+                    </div>                
                     <div className='d-flex justify-content-around'>
                       <p className='mp-darkgreen-bg rounded-1 p-1'>{income.amount} kr</p>
                       <p>När: {getFormattedDay(income.date)}</p>
@@ -71,9 +129,15 @@ const getFormattedDay = (date: Date) => {
                 .filter((income) => !income.reOccuring)
                 .map((income) => (
                   <div key={income.id} className='text-light text-center p-1'>
-                    {/* ADD EDIT BUTTON */}
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                    <Button variant='warning' onClick={() => handleEdit(income)}>
+                      <EditIcon />
+                    </Button>
                     <p className='fw-bold'>{income.title}</p>
-                    {/* ADD DELETE BUTTON */}
+                    <Button variant='danger' onClick={() => handleClickDelete(income)}>
+                      <DeleteForeverIcon />
+                    </Button>
+                    </div>
                     <div className='d-flex justify-content-around'>
                       <p className='mp-darkgreen-bg rounded-1 p-1'>{income.amount} kr</p>
                       <p>{new Date(income.date).toLocaleDateString()}</p>
@@ -84,6 +148,18 @@ const getFormattedDay = (date: Date) => {
             </div>
           </Col>
         </Row>
+        
+        <IncomeEditModal show={showEditModal} 
+                         onHide={handleClose} 
+                         income={selectedIncome} 
+                         onUpdateIncome={handleUpdateIncome} />
+
+        <IncomeDeleteModal
+                show={showDeleteModal}
+                onHide={() => setShowDeleteModal(false)}
+                onDeleteConfirmed={() => handleDelete(selectedIncome?.id || 0)}
+              />
+
       </Container>     
     )    
 }

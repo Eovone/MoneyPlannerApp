@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { HIDE_ALERT, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from './actionTypes';
 
@@ -14,9 +13,9 @@ export interface AppState {
 };
 
 const initialState: AppState = {
-  userName: '',
-  isAuthorized: false,
-  userId: 0,
+  userName: localStorage.getItem('username') || '',
+  isAuthorized: localStorage.getItem('isAuthorized') === 'true' || false,
+  userId: parseInt(localStorage.getItem('userId') || '0', 10),
   alertInfo: { showAlert: false, success: false, message: ""},
 };
 
@@ -68,12 +67,18 @@ const alertReducer = (state = initialState.alertInfo, action: any) => {
   }
 };
 
-const rootReducer = combineReducers({
-  userName: userNameReducer,
-  isAuthorized: authReducer,
-  userId: userIdReducer,
-  alertInfo: alertReducer,
-});
+const rootReducer = (state = initialState, action: any) => {
+  if (action.type === 'RESET_STATE') {
+    state = initialState;
+  }
+
+  return {
+    userName: userNameReducer(state.userName, action),
+    isAuthorized: authReducer(state.isAuthorized, action),
+    userId: userIdReducer(state.userId, action),
+    alertInfo: alertReducer(state.alertInfo, action),
+  };
+};
 
 const store = configureStore({
   reducer: rootReducer,

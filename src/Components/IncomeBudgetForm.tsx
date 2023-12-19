@@ -11,7 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
 import { showAlert } from '../Store/actionCreators';
 
-const IncomeBudgetForm: FC = () => {  
+interface IncomeBudgetFormProps {
+    fetchIncomes: () => void;
+}
+
+const IncomeBudgetForm: FC<IncomeBudgetFormProps> = (props) => {  
 
 const dispatch = useDispatch();
 const userId = useSelector((state: AppState) => state.userId);    
@@ -35,6 +39,7 @@ const formik = useFormik({
             if(responseIncome){                  
                 dispatch(showAlert({ success: true, message: "Inkomst är skapad." }));             
                 resetForm();
+                props.fetchIncomes();
             }
         } catch (error) {
             dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               

@@ -38,3 +38,21 @@ export const getIncomes = async (userId: number) => {
          console.error('Error getting incomes:', error);
      }  
 }
+
+export const updateIncome = async (postIncomeDto: PostIncomeDto, incomeId: number) => {    
+    try {
+        return await axios.put(`${localhost}/Income/${incomeId}`, postIncomeDto)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error updating income:', error);
+     }  
+}
+
+export const deleteIncome = async (id: number) => {    
+    try {
+        return await axios.delete(`${localhost}/Income/${id}`)
+                          .then(response => response.status);
+     } catch (error) {
+         console.error('Error deleting income:', error);
+     }  
+}
