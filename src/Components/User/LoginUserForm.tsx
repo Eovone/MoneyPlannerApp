@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -8,12 +8,22 @@ import { useFormik } from 'formik';
 import { PostUserDto } from '../../Models/Dto/PostUserDto';
 import { postLoginUser } from '../../Services/ApiService';
 import { LoggedInUserDto } from '../../Models/Dto/LoggedInUserDto';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUsername, setAuthStatus, setUserId, showAlert } from '../../Store/actionCreators';
+import { AppState } from '../../Store/Store';
 
 const LoginUserForm: FC = () => {
     const dispatch = useDispatch();
     const redirect = useNavigate();
+
+    const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
+
+    useEffect(() => {
+        if (isAuthorized === true) {
+          redirect('/Home');
+        }
+      }, [isAuthorized, redirect]);
+
     const formik = useFormik({
         initialValues: {
             username: '',

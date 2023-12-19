@@ -101,7 +101,7 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
 
           <Col>
             <div>
-              <h4 className='text-center mp-green-text'>Månadsvis</h4>
+              <h4 className='text-center mp-green-text bg-dark'>Månadsvis</h4>
               {listOfIncomes
                 .filter((income) => income.reOccuring)
                 .map((income) => (
@@ -110,14 +110,14 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
                     <Button variant='warning' onClick={() => handleEdit(income)}>
                       <EditIcon />
                     </Button>
-                    <p className='fw-bold'>{income.title}</p>
+                    <h5 className='fw-bold'>{income.title}</h5>
                     <Button variant='danger' onClick={() => handleClickDelete(income)}>
                       <DeleteForeverIcon />
                     </Button>
                     </div>                
                     <div className='d-flex justify-content-around'>
-                      <p className='mp-darkgreen-bg rounded-1 p-1'>{income.amount} kr</p>
-                      <p>När: {getFormattedDay(income.date)}</p>
+                      <p className='bg-dark rounded-1 p-1 mp-green-text'>+{income.amount} kr</p>
+                      <p className='bg-dark rounded-1 p-1'>När: {getFormattedDay(income.date)}</p>
                     </div>                    
                     <hr />
                   </div>                  
@@ -125,7 +125,7 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
             </div>            
 
             <div>
-              <h4 className='text-center mp-green-text'>Övriga inkomster</h4>
+              <h4 className='text-center mp-green-text bg-dark'>Andra inkomster</h4>
               {listOfIncomes
                 .filter((income) => !income.reOccuring)
                 .map((income) => (
@@ -134,14 +134,14 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
                     <Button variant='warning' onClick={() => handleEdit(income)}>
                       <EditIcon />
                     </Button>
-                    <p className='fw-bold'>{income.title}</p>
+                    <h5 className='fw-bold'>{income.title}</h5>
                     <Button variant='danger' onClick={() => handleClickDelete(income)}>
                       <DeleteForeverIcon />
                     </Button>
                     </div>
                     <div className='d-flex justify-content-around'>
-                      <p className='mp-darkgreen-bg rounded-1 p-1'>{income.amount} kr</p>
-                      <p>{new Date(income.date).toLocaleDateString()}</p>
+                      <p className='bg-dark rounded-1 p-1 mp-green-text'>+{income.amount} kr</p>
+                      <p className='bg-dark rounded-1 p-1'>{new Date(income.date).toLocaleDateString()}</p>
                     </div>                    
                     <hr />
                   </div>

@@ -96,7 +96,7 @@ const ExpenseView: FC = () => {
         <Row>
           <Col>
           <div>
-              <h4 className='text-center mp-green-text'>Månadsvis</h4>
+              <h4 className='text-center mp-green-text bg-dark'>Månadsvis</h4>
               {listOfExpenses
                 .filter((expense) => expense.reOccuring)
                 .map((expense) => (
@@ -105,14 +105,14 @@ const ExpenseView: FC = () => {
                     <Button variant='warning' onClick={() => handleEdit(expense)}>
                       <EditIcon />
                     </Button>
-                    <p className='fw-bold'>{expense.title}</p>
+                    <h5 className='fw-bold'>{expense.title}</h5>
                     <Button variant='danger' onClick={() => handleClickDelete(expense)}>
                       <DeleteForeverIcon />
                     </Button>
                     </div>                
                     <div className='d-flex justify-content-around'>
-                      <p className='mp-darkgreen-bg rounded-1 p-1 text-danger'>-{expense.amount} kr</p>
-                      <p>När: {getFormattedDay(expense.date)}</p>
+                      <p className='bg-dark rounded-1 p-1 text-danger'>-{expense.amount} kr</p>
+                      <p className='bg-dark rounded-1 p-1'>När: {getFormattedDay(expense.date)}</p>
                     </div>                    
                     <hr />
                   </div>                  
@@ -120,7 +120,7 @@ const ExpenseView: FC = () => {
             </div>            
 
             <div>
-              <h4 className='text-center mp-green-text'>Övriga inkomster</h4>
+              <h4 className='text-center mp-green-text bg-dark'>Andra utgifter</h4>
               {listOfExpenses
                 .filter((expense) => !expense.reOccuring)
                 .map((expense) => (
@@ -129,14 +129,14 @@ const ExpenseView: FC = () => {
                     <Button variant='warning' onClick={() => handleEdit(expense)}>
                       <EditIcon />
                     </Button>
-                    <p className='fw-bold'>{expense.title}</p>
+                    <h5 className='fw-bold'>{expense.title}</h5>
                     <Button variant='danger' onClick={() => handleClickDelete(expense)}>
                       <DeleteForeverIcon />
                     </Button>
                     </div>
                     <div className='d-flex justify-content-around'>
-                      <p className='mp-darkgreen-bg rounded-1 p-1 text-danger'>-{expense.amount} kr</p>
-                      <p>{new Date(expense.date).toLocaleDateString()}</p>
+                      <p className='bg-dark rounded-1 p-1 text-danger'>-{expense.amount} kr</p>
+                      <p className='bg-dark rounded-1 p-1'>{new Date(expense.date).toLocaleDateString()}</p>
                     </div>                    
                     <hr />
                   </div>
