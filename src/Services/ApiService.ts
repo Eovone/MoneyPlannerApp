@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { PostUserDto } from '../Models/Dto/PostUserDto';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
+import { PostExpenseDto } from '../Models/Dto/PostExpenseDto';
 const localhost = 'https://localhost:7017/api';
 
 export const postUser = async (postUserDto: PostUserDto) => {
@@ -54,5 +55,23 @@ export const deleteIncome = async (id: number) => {
                           .then(response => response.status);
      } catch (error) {
          console.error('Error deleting income:', error);
+     }  
+}
+
+export const postExpense = async (postExpenseDto: PostExpenseDto, userId: number) => {    
+    try {
+        return await axios.post(`${localhost}/Expense/${userId}`, postExpenseDto)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error posting expense:', error);
+     }  
+}
+
+export const getExpenses = async (userId: number) => {    
+    try {
+        return await axios.get(`${localhost}/Expense/User/${userId}`)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error getting expenses:', error);
      }  
 }

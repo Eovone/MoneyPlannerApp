@@ -16,6 +16,7 @@ import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
 import IncomeDeleteModal from '../Components/IncomeDeleteModal';
 
 const IncomeView: FC = () => {
+  
   const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
 
@@ -91,8 +92,8 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
             <h1 className='text-center mp-green-text mb-3'>Inkomster</h1>
           </Col>
         </Row>
-        <Row>
 
+        <Row>
           <Col>
             <h3 className='text-center mp-green-text mb-3'>Ny Inkomst</h3>
             <IncomeBudgetForm fetchIncomes={fetchIncomes}/>
