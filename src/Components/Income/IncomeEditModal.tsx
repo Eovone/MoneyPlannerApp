@@ -63,7 +63,7 @@ const IncomeEditModal: FC<IncomeEditModalProps> = (props) => {
             <Form.Control
               type="date"
               name="date"
-              onChange={formik.handleChange}
+              onChange={(e) => {formik.setFieldValue("date", new Date(e.target.value));}}
               onBlur={formik.handleBlur}
               value={formik.values.date.toISOString().split('T')[0]}
               isInvalid={formik.touched.date && !!formik.errors.date}

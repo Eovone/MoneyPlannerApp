@@ -37,10 +37,13 @@ const formik = useFormik({
         try {   
             let responseExpense : Expense = await postExpense(postExpenseDto, userId);
             if(responseExpense){                  
-            dispatch(showAlert({ success: true, message: "Utgift är skapad." }));             
-            resetForm();
-            props.fetchExpenses();
-        }
+                dispatch(showAlert({ success: true, message: "Utgift är skapad." }));             
+                resetForm();
+                props.fetchExpenses();            
+            }
+            else {
+                dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));
+            }        
         } catch (error) {
             dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               
         }

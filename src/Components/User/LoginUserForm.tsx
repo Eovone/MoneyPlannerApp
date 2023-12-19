@@ -46,6 +46,9 @@ const LoginUserForm: FC = () => {
 
                     redirect('/Home');
                 }
+                else{
+                    dispatch(showAlert({ success: false, message: "Inloggning misslyckades!" }));
+                }
             } catch (error) {
                 dispatch(showAlert({ success: false, message: "Inloggning misslyckades!" }));
             }
