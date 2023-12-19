@@ -4,8 +4,21 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../../Store/Store';
+import { showAlert } from '../../Store/actionCreators';
+import { PostExpenseDto } from '../../Models/Dto/PostExpenseDto';
+import { Expense } from '../../Models/Expense';
+import { postExpense } from '../../Services/ApiService';
 
-const ExpenseBudgetForm: FC = () => {      
+interface ExpenseBudgetFormProps {
+    fetchExpenses: () => void;
+}
+
+const ExpenseBudgetForm: FC<ExpenseBudgetFormProps> = (props) => {     
+    
+const dispatch = useDispatch();
+const userId = useSelector((state: AppState) => state.userId); 
 
 const formik = useFormik({
     initialValues: {
@@ -15,26 +28,22 @@ const formik = useFormik({
         reOccuring: false,
     },
     onSubmit: async (values, { resetForm }) => {
-        // let postExpenseDto : PostExpenseDto = {
-        //     title: values.title,
-        //     amount: values.amount,
-        //     date: values.date,
-        //     reOccuring: values.reOccuring,
-        // }
-        // try {   
-        //     if (props.userId === undefined) return;
-        //     let responseExpense : Expense = await postExpense(postExpenseDto, props.userId);
-        //     if(responseIncome){
-        //         props.handleAlert(true);
-        //         props.setAlertMessage('Utgift är skapad.');               
-        //         resetForm();
-
-        //         // TODO: Re-fetch GetAllUserExpenses
-        //     }
-        // } catch (error) {
-        //     props.handleAlert(false);
-        //     props.setAlertMessage('Något gick fel, försök igen!');
-        // }
+        let postExpenseDto : PostExpenseDto = {
+            title: values.title,
+            amount: values.amount,
+            date: values.date,
+            reOccuring: values.reOccuring,
+        }
+        try {   
+            let responseExpense : Expense = await postExpense(postExpenseDto, userId);
+            if(responseExpense){                  
+            dispatch(showAlert({ success: true, message: "Utgift är skapad." }));             
+            resetForm();
+            props.fetchExpenses();
+        }
+        } catch (error) {
+            dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               
+        }
     },
 }); 
 

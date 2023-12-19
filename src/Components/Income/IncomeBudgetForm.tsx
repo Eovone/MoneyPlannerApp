@@ -4,12 +4,12 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
-import { Income } from '../Models/Income';
-import { postIncome } from '../Services/ApiService';
+import { PostIncomeDto } from '../../Models/Dto/PostIncomeDto';
+import { Income } from '../../Models/Income';
+import { postIncome } from '../../Services/ApiService';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../Store/Store';
-import { showAlert } from '../Store/actionCreators';
+import { AppState } from '../../Store/Store';
+import { showAlert } from '../../Store/actionCreators';
 
 interface IncomeBudgetFormProps {
     fetchIncomes: () => void;

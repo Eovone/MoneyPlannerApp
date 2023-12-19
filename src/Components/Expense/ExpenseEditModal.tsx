@@ -1,34 +1,34 @@
 import { FC } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { Income } from '../Models/Income';
 import { useFormik } from 'formik';
-import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
+import { PostExpenseDto } from '../../Models/Dto/PostExpenseDto';
+import { Expense } from '../../Models/Expense';
 
 interface IncomeEditModalProps {
   show: boolean;
   onHide: () => void;
-  income: Income | null;
-  onUpdateIncome: (updatedIncome: PostIncomeDto, incomeId: number) => void;
+  expense: Expense | null;
+  onUpdateExpense: (updatedExpense: PostExpenseDto, expenseId: number) => void;
 }
 
 const IncomeEditModal: FC<IncomeEditModalProps> = (props) => {
     const formik = useFormik({  
     enableReinitialize: true, 
     initialValues: {
-        title: props.income ? props.income.title : '',
-        amount: props.income ? props.income.amount : 0,
-        date: props.income ? new Date(props.income.date) : new Date(),
-        reOccuring: props.income ? props.income.reOccuring : false,
+        title: props.expense ? props.expense.title : '',
+        amount: props.expense ? props.expense.amount : 0,
+        date: props.expense ? new Date(props.expense.date) : new Date(),
+        reOccuring: props.expense ? props.expense.reOccuring : false,
       },
     onSubmit: (values) => {
-      let postIncomeDto: PostIncomeDto = {
+      let postExpenseDto: PostExpenseDto = {
         title: values.title,
         amount: values.amount,
         date: values.date,
         reOccuring: values.reOccuring,
       }
-      if (props.income === null) return;
-      props.onUpdateIncome(postIncomeDto, props.income.id);
+      if (props.expense === null) return;
+      props.onUpdateExpense(postExpenseDto, props.expense.id);
       props.onHide();
     },
   });
@@ -36,7 +36,7 @@ const IncomeEditModal: FC<IncomeEditModalProps> = (props) => {
   return (
     <Modal show={props.show} onHide={props.onHide}>
       <Modal.Header closeButton className='mp-darkgreen-bg text-light'>
-        <Modal.Title>Redigera Inkomst</Modal.Title>
+        <Modal.Title>Redigera Utgift</Modal.Title>
       </Modal.Header>
       <Modal.Body className='mp-darkgreen-bg text-light'>
         <Form onSubmit={formik.handleSubmit}>
