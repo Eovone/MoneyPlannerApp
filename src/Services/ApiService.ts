@@ -75,3 +75,21 @@ export const getExpenses = async (userId: number) => {
          console.error('Error getting expenses:', error);
      }  
 }
+
+export const updateExpense = async (postExpenseDto: PostExpenseDto, expenseId: number) => {    
+    try {
+        return await axios.put(`${localhost}/Expense/${expenseId}`, postExpenseDto)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error updating expense:', error);
+     }  
+}
+
+export const deleteExpense = async (id: number) => {    
+    try {
+        return await axios.delete(`${localhost}/Expense/${id}`)
+                          .then(response => response.status);
+     } catch (error) {
+         console.error('Error deleting expense:', error);
+     }  
+}

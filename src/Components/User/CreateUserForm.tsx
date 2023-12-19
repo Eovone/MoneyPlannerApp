@@ -1,16 +1,16 @@
 import { FC } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { PostUserDto } from '../Models/Dto/PostUserDto';
+import { PostUserDto } from '../../Models/Dto/PostUserDto';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { User } from '../Models/User';
-import { postUser } from '../Services/ApiService';
+import { User } from '../../Models/User';
+import { postUser } from '../../Services/ApiService';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { showAlert } from '../Store/actionCreators';
+import { showAlert } from '../../Store/actionCreators';
 
 const CreateUserForm: FC = () => {
   const navigate = useNavigate();   

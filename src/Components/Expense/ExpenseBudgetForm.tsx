@@ -4,21 +4,21 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
-import { Income } from '../Models/Income';
-import { postIncome } from '../Services/ApiService';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../Store/Store';
-import { showAlert } from '../Store/actionCreators';
+import { AppState } from '../../Store/Store';
+import { showAlert } from '../../Store/actionCreators';
+import { PostExpenseDto } from '../../Models/Dto/PostExpenseDto';
+import { Expense } from '../../Models/Expense';
+import { postExpense } from '../../Services/ApiService';
 
-interface IncomeBudgetFormProps {
-    fetchIncomes: () => void;
+interface ExpenseBudgetFormProps {
+    fetchExpenses: () => void;
 }
 
-const IncomeBudgetForm: FC<IncomeBudgetFormProps> = (props) => {  
-
+const ExpenseBudgetForm: FC<ExpenseBudgetFormProps> = (props) => {     
+    
 const dispatch = useDispatch();
-const userId = useSelector((state: AppState) => state.userId);    
+const userId = useSelector((state: AppState) => state.userId); 
 
 const formik = useFormik({
     initialValues: {
@@ -28,19 +28,19 @@ const formik = useFormik({
         reOccuring: false,
     },
     onSubmit: async (values, { resetForm }) => {
-        let postIncomeDto : PostIncomeDto = {
+        let postExpenseDto : PostExpenseDto = {
             title: values.title,
             amount: values.amount,
             date: values.date,
             reOccuring: values.reOccuring,
         }
         try {   
-            let responseIncome : Income = await postIncome(postIncomeDto, userId);
-            if(responseIncome){                  
-                dispatch(showAlert({ success: true, message: "Inkomst är skapad." }));             
-                resetForm();
-                props.fetchIncomes();
-            }
+            let responseExpense : Expense = await postExpense(postExpenseDto, userId);
+            if(responseExpense){                  
+            dispatch(showAlert({ success: true, message: "Utgift är skapad." }));             
+            resetForm();
+            props.fetchExpenses();
+        }
         } catch (error) {
             dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               
         }
@@ -129,7 +129,7 @@ const formik = useFormik({
 
             <div className='text-center'>
                 <Button className='mt-3' variant="primary" type="submit">
-                    Registrera Inkomst
+                    Registrera Utgift
                 </Button>
             </div> 
 
@@ -140,4 +140,4 @@ const formik = useFormik({
     )    
 }
     
-    export default IncomeBudgetForm;
+    export default ExpenseBudgetForm;

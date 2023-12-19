@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import IncomeBudgetForm from '../Components/IncomeBudgetForm';
+import IncomeBudgetForm from '../Components/Income/IncomeBudgetForm';
 import { Income } from '../Models/Income';
 import { deleteIncome, getIncomes, updateIncome } from '../Services/ApiService';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +11,12 @@ import { showAlert } from '../Store/actionCreators';
 import { Button } from 'react-bootstrap';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import IncomeEditModal from '../Components/IncomeEditModal';
+import IncomeEditModal from '../Components/Income/IncomeEditModal';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
-import IncomeDeleteModal from '../Components/IncomeDeleteModal';
+import IncomeDeleteModal from '../Components/Income/IncomeDeleteModal';
 
 const IncomeView: FC = () => {
-  
+
   const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
 

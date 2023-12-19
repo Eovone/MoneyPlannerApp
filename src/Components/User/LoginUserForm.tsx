@@ -5,11 +5,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
-import { PostUserDto } from '../Models/Dto/PostUserDto';
-import { postLoginUser } from '../Services/ApiService';
-import { LoggedInUserDto } from '../Models/Dto/LoggedInUserDto';
+import { PostUserDto } from '../../Models/Dto/PostUserDto';
+import { postLoginUser } from '../../Services/ApiService';
+import { LoggedInUserDto } from '../../Models/Dto/LoggedInUserDto';
 import { useDispatch } from 'react-redux';
-import { updateUsername, setAuthStatus, setUserId, showAlert } from '../Store/actionCreators';
+import { updateUsername, setAuthStatus, setUserId, showAlert } from '../../Store/actionCreators';
 
 const LoginUserForm: FC = () => {
     const dispatch = useDispatch();
