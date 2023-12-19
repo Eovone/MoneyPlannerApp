@@ -52,6 +52,9 @@ const formik = useFormik({
             dispatch(showAlert({ success: true, message: "Ditt konto har skapats!" }));  
             navigate('/');
           }   
+          else {
+            dispatch(showAlert({ success: false, message: "Det gick inte att skapa kontot, försök igen!" }));
+          }
       } catch (error) {            
             dispatch(showAlert({ success: false, message: "Det gick inte att skapa kontot, försök igen!" }));  
             console.log(error);

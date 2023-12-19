@@ -41,6 +41,9 @@ const formik = useFormik({
                 resetForm();
                 props.fetchIncomes();
             }
+            else {
+                dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));
+            }
         } catch (error) {
             dispatch(showAlert({ success: false, message: "Något gick fel, försök igen!" }));               
         }
