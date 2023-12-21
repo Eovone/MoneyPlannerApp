@@ -2,6 +2,7 @@ import axios from 'axios';
 import { PostUserDto } from '../Models/Dto/PostUserDto';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
 import { PostExpenseDto } from '../Models/Dto/PostExpenseDto';
+import { PostMonthAnalysisDto } from '../Models/Dto/PostMonthAnalysisDto';
 const localhost = 'https://localhost:7017/api';
 
 export const postUser = async (postUserDto: PostUserDto) => {
@@ -91,5 +92,23 @@ export const deleteExpense = async (id: number) => {
                           .then(response => response.status);
      } catch (error) {
          console.error('Error deleting expense:', error);
+     }  
+}
+
+export const postMonthAnalysis = async (postMonthAnalysisDto: PostMonthAnalysisDto, userId: number) => {
+    try {
+        return await axios.post(`${localhost}/Analysis/${userId}`, postMonthAnalysisDto)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error posting MonthAnalysis:', error);
+     }  
+}
+
+export const getMonthAnalysis = async (postMonthAnalysisDto: PostMonthAnalysisDto, userId: number) => {    
+    try {
+        return await axios.get(`${localhost}/Analysis/User/${userId}/Year/${postMonthAnalysisDto.year}/Month/${postMonthAnalysisDto.month}`)
+                          .then(response => response.data);
+     } catch (error) {
+         console.error('Error getting MonthAnalysis:', error);
      }  
 }
