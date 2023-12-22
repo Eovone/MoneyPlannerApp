@@ -9,9 +9,10 @@ import { AppState } from '../Store/Store';
 import { showAlert } from '../Store/actionCreators';
 import { MonthAnalysis } from '../Models/MonthAnalysis';
 import { postMonthAnalysis, getMonthAnalysis } from '../Services/MonthAnalysisService';
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
-import { ChartData } from '../Models/ChartData';
 import MonthSelector from '../Components/MonthSelector';
+import { AnalysisSummary, generateChartData } from '../Services/MonthAnalysisHelper';
+import LineChartGraph from '../Components/MonthAnalysis/LineChartGraph';
+import BarChartGraph from '../Components/MonthAnalysis/BarChartGraph';
 
 const MonthAnalysisView: FC = () => { 
     
@@ -63,64 +64,20 @@ const handleGenerateMonthAnalysis = async () => {
     }
 }
 
-const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
-const chartData: ChartData[] = [];
-let cumulativeTotal = 0;
-let largestExpense: number = 0;
-let largestExpenseTitle: string = '';
-let largestIncome: number = 0;
-let largestIncomeTitle: string = '';
+let analysisSummary: AnalysisSummary = {
+    chartData: [],
+    largestExpenseTitle: '',
+    largestExpense: 0,
+    largestIncomeTitle: '',
+    largestIncome: 0,
+  };
 
-
-for (let index = 1; index < daysInMonth+1; index++) {   
-    let chartItem: ChartData = {
-        date: '',
-        Summa: cumulativeTotal,
-    };
-
-    chartItem.date = index.toString();   
-
-    currentMonthAnalysis?.incomes.forEach(income => {
-        let incomeDate = new Date(income.date);
-        if (incomeDate.getDate() === index){
-            if (chartItem.Inkomst !== undefined){
-                chartItem.Inkomst = (chartItem.Inkomst + income.amount);
-                chartItem.Summa = (chartItem.Summa + income.amount);
-            }
-            else {
-                chartItem.Inkomst = income.amount;
-                chartItem.Summa = (chartItem.Summa + income.amount);   
-            }     
-            
-            if(income.amount > largestIncome){
-                largestIncome = income.amount;
-                largestIncomeTitle = income.title;
-            }
-        }
-        
-    });
-    currentMonthAnalysis?.expenses.forEach(expense => {
-        let expenseDate = new Date(expense.date);
-        if (expenseDate.getDate() === index){
-            if (chartItem.Utgift !== undefined){
-                chartItem.Utgift = (chartItem.Utgift + expense.amount);
-                chartItem.Summa = (chartItem.Summa + expense.amount);
-            }
-            else {
-                chartItem.Utgift = expense.amount;    
-                chartItem.Summa = (chartItem.Summa - expense.amount); 
-            }          
-
-            if (expense.amount > largestExpense){
-                largestExpense = expense.amount;
-                largestExpenseTitle = expense.title;
-            }   
-    }});
-
-    cumulativeTotal = chartItem.Summa;
-    chartData.push(chartItem);    
-}
+  if (currentMonthAnalysis) {
+    analysisSummary = generateChartData(currentDate, currentMonthAnalysis);
+  }
+  
+const { chartData, largestExpenseTitle, largestExpense, largestIncomeTitle, largestIncome } = analysisSummary;
 
 const lastTotal = chartData.length > 0 ? chartData[chartData.length - 1].Summa : 0;
 const strokeColor = lastTotal > 0 ? 'green' : 'red';
@@ -158,58 +115,30 @@ const strokeColor = lastTotal > 0 ? 'green' : 'red';
                         </Row>
                         <Row className='text-light text-center mt-3 bg-dark rounded-1 '>
                             <Col>
-                                <h5>Sammanfattning</h5>
-                                <p>Största Utgift: {largestExpenseTitle} | -{largestExpense} kr</p>
-                                <p>Högsta Inkomst: {largestIncomeTitle} | +{largestIncome} kr</p>
-                            </Col>
-                        </Row>
-
-                        <Row className='mt-3'>
-                            <Col className='text-center d-flex justify-content-center'>
-                                <LineChart width={1000}
-                                            height={400}
-                                            data={chartData}
-                                            margin={{
-                                            top: 5,
-                                            right: 30,
-                                            left: 20,
-                                            bottom: 5,
-                                            }}
-                                            className='bg-dark rounded-1'
-                                            >
-                                    <XAxis dataKey="date" stroke='white' />
-                                    <YAxis stroke='white'/>
-                                    <Tooltip labelFormatter={(label: string) => `Datum: ${label}`} />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="Summa" stroke={strokeColor} strokeWidth={3} r={0}/>                                                            
-                                </LineChart>
-                            </Col>
-                        </Row>
-
-                        <Row className='mt-3'>
-                            <Col className='text-center d-flex justify-content-center'>
-                                <BarChart width={1000}
-                                            height={400}
-                                            data={chartData}
-                                            margin={{
-                                            top: 5,
-                                            right: 30,
-                                            left: 20,
-                                            bottom: 5,
-                                            }}
-                                            className='bg-dark rounded-1'
-                                            >
-                                    <XAxis dataKey="date" stroke='white' />
-                                    <YAxis stroke='white'/>
-                                    <Tooltip labelFormatter={(label: string) => `Datum: ${label}`}/>
-                                    <Legend />
-                                    <Bar dataKey="Inkomst" fill='green' />
-                                    <Bar dataKey="Utgift" fill='red' />
+                                <h4 className='mp-green-text'>Sammanfattning</h4>
+                                <p>
+                                    Summa för månaden: 
+                                    <span style={{ color: strokeColor }}> {lastTotal} kr</span>
+                                </p>
+                                <hr/>
+                                <p>
+                                    Största Utgift: {largestExpenseTitle} 
+                                    <span className="text-danger"> -{largestExpense} kr</span>
+                                </p>
+                                <hr/>
+                                <p>
+                                    Högsta Inkomst: {largestIncomeTitle} 
+                                    <span className="text-success"> +{largestIncome} kr</span>
+                                </p>
                                 
-                                </BarChart>
                             </Col>
-                            </Row>
-                             </>
+                        </Row>
+                        
+                        <LineChartGraph chartData={chartData}
+                                        strokeColor={strokeColor}/>                         
+
+                        <BarChartGraph chartData={chartData}/>  
+                        </>
                     )}   
         </Container>
       );
