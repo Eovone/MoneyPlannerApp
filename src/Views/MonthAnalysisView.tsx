@@ -140,8 +140,6 @@ for (let index = 1; index < daysInMonth+1; index++) {
 const lastTotal = chartData.length > 0 ? chartData[chartData.length - 1].Summa : 0;
 const strokeColor = lastTotal > 0 ? 'green' : 'red';
 
-console.log(chartData)
-
     return (
         <Container>
           <Row className='text-light'>
