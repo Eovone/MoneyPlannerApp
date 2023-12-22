@@ -17,6 +17,8 @@ const Home: FC = () => {
     }
   }, [isAuthorized, redirect]);
 
+  if (isAuthorized === false) return <></>
+  
     return(
       <Container className='darkBackground mt-5'>
         <Row>

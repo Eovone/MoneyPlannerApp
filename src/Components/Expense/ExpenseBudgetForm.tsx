@@ -9,7 +9,7 @@ import { AppState } from '../../Store/Store';
 import { showAlert } from '../../Store/actionCreators';
 import { PostExpenseDto } from '../../Models/Dto/PostExpenseDto';
 import { Expense } from '../../Models/Expense';
-import { postExpense } from '../../Services/ApiService';
+import { postExpense } from '../../Services/ExpenseService';
 
 interface ExpenseBudgetFormProps {
     fetchExpenses: () => void;

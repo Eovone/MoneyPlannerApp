@@ -6,7 +6,7 @@ import ExpenseBudgetForm from '../Components/Expense/ExpenseBudgetForm';
 import { Expense } from '../Models/Expense';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
-import { deleteExpense, getExpenses, updateExpense } from '../Services/ApiService';
+import { getExpenses, updateExpense, deleteExpense, getExpensesByMonth } from '../Services/ExpenseService';
 import { showAlert } from '../Store/actionCreators';
 import { PostExpenseDto } from '../Models/Dto/PostExpenseDto';
 import { Button } from 'react-bootstrap';
@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExpenseEditModal from '../Components/Expense/ExpenseEditModal';
 import ExpenseDeleteModal from '../Components/Expense/ExpenseDeleteModal';
+import MonthSelector from '../Components/MonthSelector';
 
 const ExpenseView: FC = () => {  
 
@@ -24,10 +25,11 @@ const ExpenseView: FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const fetchExpenses = async () => {
     try {
-      const responseList: Expense[] = await getExpenses(userId);
+      const responseList: Expense[] = await getExpensesByMonth(userId, currentDate.getFullYear(), currentDate.getMonth()+1);
       setListOfExpenses(responseList);
     } catch (error) {        
       dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Utgifter." })); 
@@ -36,7 +38,7 @@ const ExpenseView: FC = () => {
   
   useEffect(() => {    
     fetchExpenses();
-  }, [userId, dispatch]);
+  }, [userId, dispatch, currentDate]);
 
   const getFormattedDay = (date: Date) => {
     const day = new Date(date).getDate();
@@ -96,6 +98,9 @@ const ExpenseView: FC = () => {
         <Row>
           <Col>
           <div>
+
+            <MonthSelector currentDate={currentDate} setCurrentDate={setCurrentDate}/>
+
               <h4 className='text-center mp-green-text bg-dark'>Månadsvis</h4>
               {listOfExpenses
                 .filter((expense) => expense.reOccuring)
