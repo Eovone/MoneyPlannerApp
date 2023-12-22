@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import IncomeBudgetForm from '../Components/Income/IncomeBudgetForm';
 import { Income } from '../Models/Income';
-import { deleteIncome, getIncomes, updateIncome } from '../Services/ApiService';
+import { updateIncome, deleteIncome, getIncomesByMonth } from '../Services/IncomeService';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
 import { showAlert } from '../Store/actionCreators';
@@ -14,6 +14,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IncomeEditModal from '../Components/Income/IncomeEditModal';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
 import IncomeDeleteModal from '../Components/Income/IncomeDeleteModal';
+import MonthSelector from '../Components/MonthSelector';
 
 const IncomeView: FC = () => {
 
@@ -24,10 +25,11 @@ const IncomeView: FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const fetchIncomes = async () => {
     try {
-      const responseList: Income[] = await getIncomes(userId);
+      const responseList: Income[] = await getIncomesByMonth(userId, currentDate.getFullYear(), currentDate.getMonth()+1);
       setListOfIncomes(responseList);
     } catch (error) {        
       dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Inkomster." })); 
@@ -36,7 +38,7 @@ const IncomeView: FC = () => {
 
   useEffect(() => {    
     fetchIncomes();
-  }, [userId, dispatch]);
+  }, [userId, dispatch, currentDate]);
 
 const getFormattedDay = (date: Date) => {
   const day = new Date(date).getDate();
@@ -100,8 +102,10 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
           </Col>          
 
           <Col>
-            <div>
-              <h4 className='text-center mp-green-text bg-dark'>Månadsvis</h4>
+            <div>            
+              <MonthSelector currentDate={currentDate} setCurrentDate={setCurrentDate}/>
+
+              <h4 className='text-center mp-green-text bg-dark mt-2'>Månadsvis</h4>
               {listOfIncomes
                 .filter((income) => income.reOccuring)
                 .map((income) => (

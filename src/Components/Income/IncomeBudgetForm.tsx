@@ -6,7 +6,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { PostIncomeDto } from '../../Models/Dto/PostIncomeDto';
 import { Income } from '../../Models/Income';
-import { postIncome } from '../../Services/ApiService';
+import { postIncome } from '../../Services/IncomeService';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../Store/Store';
 import { showAlert } from '../../Store/actionCreators';

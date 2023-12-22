@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import { PostUserDto } from '../../Models/Dto/PostUserDto';
-import { postLoginUser } from '../../Services/ApiService';
+import { postLoginUser } from '../../Services/UserService';
 import { LoggedInUserDto } from '../../Models/Dto/LoggedInUserDto';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUsername, setAuthStatus, setUserId, showAlert } from '../../Store/actionCreators';

@@ -4,7 +4,7 @@ import { PostUserDto } from '../../Models/Dto/PostUserDto';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { User } from '../../Models/User';
-import { postUser } from '../../Services/ApiService';
+import { postUser } from '../../Services/UserService';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
