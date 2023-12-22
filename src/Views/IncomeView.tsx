@@ -105,7 +105,7 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
             <div>            
               <MonthSelector currentDate={currentDate} setCurrentDate={setCurrentDate}/>
 
-              <h4 className='text-center mp-green-text bg-dark'>Månadsvis</h4>
+              <h4 className='text-center mp-green-text bg-dark mt-2'>Månadsvis</h4>
               {listOfIncomes
                 .filter((income) => income.reOccuring)
                 .map((income) => (

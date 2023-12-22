@@ -38,14 +38,14 @@ const handleNextMonth = () => {
     <div>
          <Row className='text-light'>
             <Col className='d-flex justify-content-end'>
-                <Button onClick={handlePrevMonth}><ArrowBackIcon/></Button>
+                <Button onClick={handlePrevMonth} style={{ width: '50px', height: '50px'}}><ArrowBackIcon/></Button>
             </Col>
             <Col className='text-center'>
                 <h4>{year}</h4>
                 <h2>{month.toUpperCase()}</h2>
             </Col>
             <Col className='d-flex justify-content-start'>
-                <Button onClick={handleNextMonth}><ArrowForwardIcon/></Button>
+                <Button onClick={handleNextMonth} style={{ width: '50px', height: '50px'}}><ArrowForwardIcon/></Button>
             </Col>  
           </Row>
     </div>

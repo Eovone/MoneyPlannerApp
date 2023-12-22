@@ -101,7 +101,7 @@ const ExpenseView: FC = () => {
 
             <MonthSelector currentDate={currentDate} setCurrentDate={setCurrentDate}/>
 
-              <h4 className='text-center mp-green-text bg-dark'>Månadsvis</h4>
+              <h4 className='text-center mp-green-text bg-dark mt-2'>Månadsvis</h4>
               {listOfExpenses
                 .filter((expense) => expense.reOccuring)
                 .map((expense) => (
