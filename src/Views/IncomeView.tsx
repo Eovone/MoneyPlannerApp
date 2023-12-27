@@ -20,6 +20,7 @@ const IncomeView: FC = () => {
 
   const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
+  const JWT = useSelector((state: AppState) => state.jwtToken);
 
   const [listOfIncomes, setListOfIncomes] = useState<Income[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -29,7 +30,7 @@ const IncomeView: FC = () => {
 
   const fetchIncomes = async () => {
     try {
-      const responseList: Income[] = await getIncomesByMonth(userId, currentDate.getFullYear(), currentDate.getMonth()+1);
+      const responseList: Income[] = await getIncomesByMonth(userId, currentDate.getFullYear(), currentDate.getMonth()+1, JWT);
       setListOfIncomes(responseList);
     } catch (error) {        
       dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Inkomster." })); 
@@ -64,7 +65,7 @@ const handleClickDelete = (income: Income) => {
 const handleDelete = async (incomeId: number) => {
   setShowDeleteModal(false);
   try {
-    let responseStatus = await deleteIncome(incomeId);
+    let responseStatus = await deleteIncome(incomeId, JWT);
     if (responseStatus === 204) {
       dispatch(showAlert({ success: true, message: "Din Inkomst är borttagen." }));
       setListOfIncomes(prevState => prevState.filter(income => income.id !== incomeId));
@@ -79,7 +80,7 @@ const handleDelete = async (incomeId: number) => {
 
 const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number) => {
   try{
-    const responseIncome: Income = await updateIncome(updatedIncome, incomeId);
+    const responseIncome: Income = await updateIncome(updatedIncome, incomeId, JWT);
     if (responseIncome) dispatch(showAlert({ success: true, message: "Din Inkomst är uppdaterad." }));
     fetchIncomes();
   } catch (error) {

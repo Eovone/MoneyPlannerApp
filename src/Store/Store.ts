@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { HIDE_ALERT, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from './actionTypes';
+import { HIDE_ALERT, SET_AUTH_STATUS, SET_JWT, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from './actionTypes';
 
 export interface AppState {
   userName: string;
@@ -10,6 +10,7 @@ export interface AppState {
     success: boolean;
     message: string;
   };
+  jwtToken: string;
 };
 
 const initialState: AppState = {
@@ -17,6 +18,7 @@ const initialState: AppState = {
   isAuthorized: localStorage.getItem('isAuthorized') === 'true' || false,
   userId: parseInt(localStorage.getItem('userId') || '0', 10),
   alertInfo: { showAlert: false, success: false, message: ""},
+  jwtToken: localStorage.getItem('jwtToken') || '',
 };
 
 const userNameReducer = (state = initialState.userName, action: any) => {
@@ -67,6 +69,15 @@ const alertReducer = (state = initialState.alertInfo, action: any) => {
   }
 };
 
+const jwtReducer = (state = initialState.jwtToken, action: any) => {
+  switch (action.type) {
+    case SET_JWT:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = (state = initialState, action: any) => {
   if (action.type === 'RESET_STATE') {
     state = initialState;
@@ -77,6 +88,7 @@ const rootReducer = (state = initialState, action: any) => {
     isAuthorized: authReducer(state.isAuthorized, action),
     userId: userIdReducer(state.userId, action),
     alertInfo: alertReducer(state.alertInfo, action),
+    jwtToken: jwtReducer(state.jwtToken, action),
   };
 };
 

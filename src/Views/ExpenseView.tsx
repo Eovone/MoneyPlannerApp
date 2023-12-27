@@ -20,6 +20,7 @@ const ExpenseView: FC = () => {
 
   const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
+  const JWT = useSelector((state: AppState) => state.jwtToken);
 
   const [listOfExpenses, setListOfExpenses] = useState<Expense[]>([]);  
   const [showEditModal, setShowEditModal] = useState(false);
@@ -29,7 +30,7 @@ const ExpenseView: FC = () => {
 
   const fetchExpenses = async () => {
     try {
-      const responseList: Expense[] = await getExpensesByMonth(userId, currentDate.getFullYear(), currentDate.getMonth()+1);
+      const responseList: Expense[] = await getExpensesByMonth(userId, currentDate.getFullYear(), currentDate.getMonth()+1, JWT);
       setListOfExpenses(responseList);
     } catch (error) {        
       dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta dina Utgifter." })); 
@@ -64,7 +65,7 @@ const ExpenseView: FC = () => {
   const handleDelete = async (expenseId: number) => {
     setShowDeleteModal(false);
     try {
-      let responseStatus = await deleteExpense(expenseId);
+      let responseStatus = await deleteExpense(expenseId, JWT);
       if (responseStatus === 204) {
         dispatch(showAlert({ success: true, message: "Din Utgift är borttagen." }));
         setListOfExpenses(prevState => prevState.filter(expense => expense.id !== expenseId));
@@ -79,7 +80,7 @@ const ExpenseView: FC = () => {
 
   const handleUpdateExpense = async (updatedExpense: PostExpenseDto, expenseId: number) => {
     try{
-      const responseExpense: Expense = await updateExpense(updatedExpense, expenseId);
+      const responseExpense: Expense = await updateExpense(updatedExpense, expenseId, JWT);
       if (responseExpense) dispatch(showAlert({ success: true, message: "Din Utgift är uppdaterad." }));
       fetchExpenses();
     } catch (error) {

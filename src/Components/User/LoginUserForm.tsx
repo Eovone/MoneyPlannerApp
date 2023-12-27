@@ -6,17 +6,17 @@ import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import { PostUserDto } from '../../Models/Dto/PostUserDto';
-import { postLoginUser } from '../../Services/UserService';
-import { LoggedInUserDto } from '../../Models/Dto/LoggedInUserDto';
+import { postLoginUser } from '../../Services/AuthService';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUsername, setAuthStatus, setUserId, showAlert } from '../../Store/actionCreators';
+import { updateUsername, setAuthStatus, setUserId, showAlert, setJWT } from '../../Store/actionCreators';
 import { AppState } from '../../Store/Store';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginUserForm: FC = () => {
     const dispatch = useDispatch();
     const redirect = useNavigate();
 
-    const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
+    const isAuthorized = useSelector((state: AppState) => state.isAuthorized); 
 
     useEffect(() => {
         if (isAuthorized === true) {
@@ -36,16 +36,18 @@ const LoginUserForm: FC = () => {
             }
 
             try {
-                let response : LoggedInUserDto = await postLoginUser(postLogin);
-                if(response.isAuthorized){
+                let response: string = await postLoginUser(postLogin);
+                if (response){
+                    dispatch(setJWT(response));                    
+                    const decodedToken = jwtDecode(response) as { [key: string]: any };
 
+                    dispatch(setUserId(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']));
+                    dispatch(updateUsername(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']));   
                     dispatch(showAlert({ success: true, message: "Inloggning lyckades! Välkommen" }));  
-                    dispatch(setAuthStatus(response.isAuthorized));
-                    dispatch(updateUsername(postLogin.username));
-                    dispatch(setUserId(response.id));
-
+                    dispatch(setAuthStatus(true));                      
+                    
                     redirect('/Home');
-                }
+                }                
                 else{
                     dispatch(showAlert({ success: false, message: "Inloggning misslyckades!" }));
                 }
