@@ -19,6 +19,7 @@ const ExpenseBudgetForm: FC<ExpenseBudgetFormProps> = (props) => {
     
 const dispatch = useDispatch();
 const userId = useSelector((state: AppState) => state.userId); 
+const JWT = useSelector((state: AppState) => state.jwtToken);
 
 const formik = useFormik({
     initialValues: {
@@ -35,7 +36,7 @@ const formik = useFormik({
             reOccuring: values.reOccuring,
         }
         try {   
-            let responseExpense : Expense = await postExpense(postExpenseDto, userId);
+            let responseExpense : Expense = await postExpense(postExpenseDto, userId, JWT);
             if(responseExpense){                  
                 dispatch(showAlert({ success: true, message: "Utgift är skapad." }));             
                 resetForm();

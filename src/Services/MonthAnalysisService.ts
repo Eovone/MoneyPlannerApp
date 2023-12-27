@@ -3,29 +3,39 @@ import { PostMonthAnalysisDto } from "../Models/Dto/PostMonthAnalysisDto";
 
 const localhost = 'https://localhost:7017/api/Analysis';
 
-export const postMonthAnalysis = async (postMonthAnalysisDto: PostMonthAnalysisDto, userId: number) => {
+export const postMonthAnalysis = async (postMonthAnalysisDto: PostMonthAnalysisDto, userId: number, jwt: string) => {
     try {
-        return await axios.post(`${localhost}/${userId}`, postMonthAnalysisDto)
-                          .then(response => response.data);
-     } catch (error) {
-         console.error('Error posting MonthAnalysis:', error);
-     }  
-}
+        const response = await axios.post(`${localhost}/${userId}`, postMonthAnalysisDto, {
+            headers: {
+                Authorization: `bearer ${jwt}`,
+            },
+        });
 
-export const getMonthAnalysis = async (postMonthAnalysisDto: PostMonthAnalysisDto, userId: number) => {    
+        return response.data;
+    } catch (error) {
+        console.error('Error posting MonthAnalysis:', error);       
+    }
+};
+
+export const getMonthAnalysis = async ( postMonthAnalysisDto: PostMonthAnalysisDto, userId: number, jwt: string ) => {
     try {
-        const response = await axios.get(`${localhost}/User/${userId}/Year/${postMonthAnalysisDto.year}/Month/${postMonthAnalysisDto.month}`);
+        const response = await axios.get(
+            `${localhost}/User/${userId}/Year/${postMonthAnalysisDto.year}/Month/${postMonthAnalysisDto.month}`,
+            {headers: {
+                    Authorization: `bearer ${jwt}`,
+                },}
+        );
+
         if (response.status === 200) return response.data;
-     } catch (error) {
+    } catch (error) {
         if (axios.isAxiosError(error)) {
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 404) {
-                return axiosError.response.status; 
-            } 
-            else {
+                return axiosError.response.status;
+            } else {
                 console.error('Error getting MonthAnalysis:', error);
-                return axiosError.response?.status
-            }; 
+                return axiosError.response?.status;
+            }
         }
-       }  
-}
+    }
+};

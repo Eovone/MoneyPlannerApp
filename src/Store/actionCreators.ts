@@ -1,4 +1,4 @@
-import { HIDE_ALERT, RESET_STATE, SET_AUTH_STATUS, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from "./actionTypes";
+import { HIDE_ALERT, RESET_STATE, SET_AUTH_STATUS, SET_JWT, SET_USER_ID, SHOW_ALERT, UPDATE_USERNAME } from "./actionTypes";
 
 export const updateUsername = (newName: string) => {
     localStorage.setItem('username', newName);
@@ -36,3 +36,11 @@ export const hideAlert = () => ({
 export const resetState = () => ({
     type: RESET_STATE,
 });
+
+export const setJWT = (token: string) => {
+    localStorage.setItem('jwtToken', token);
+    return {
+        type: SET_JWT,
+        payload: token,
+    };
+};

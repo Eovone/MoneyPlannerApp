@@ -18,6 +18,7 @@ const MonthAnalysisView: FC = () => {
     
 const dispatch = useDispatch();
 const userId = useSelector((state: AppState) => state.userId);
+const JWT = useSelector((state: AppState) => state.jwtToken);
 
 const [currentDate, setCurrentDate] = useState(new Date());
 const [currentMonthAnalysis, setCurrentMonthAnalysis] = useState<MonthAnalysis | null>(null);
@@ -28,7 +29,7 @@ useEffect(() => {
         year: currentDate.getFullYear(),
     }
     const fetchMonthAnalysis = async () => {        
-        let responseMonthAnalysis = await getMonthAnalysis(postMonthAnalysisDto, userId);
+        let responseMonthAnalysis = await getMonthAnalysis(postMonthAnalysisDto, userId, JWT);
 
         if (responseMonthAnalysis === 404) {
             setCurrentMonthAnalysis(null);
@@ -51,7 +52,7 @@ const handleGenerateMonthAnalysis = async () => {
         year: currentDate.getFullYear(),
     }
     try {   
-        let responseMonthAnalysis : MonthAnalysis = await postMonthAnalysis(postMonthAnalysisDto, userId);
+        let responseMonthAnalysis : MonthAnalysis = await postMonthAnalysis(postMonthAnalysisDto, userId, JWT);
         if(responseMonthAnalysis){                  
             dispatch(showAlert({ success: true, message: "Månadsanalysen är skapad." }));
             setCurrentMonthAnalysis(responseMonthAnalysis);

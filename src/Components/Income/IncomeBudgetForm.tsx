@@ -19,6 +19,7 @@ const IncomeBudgetForm: FC<IncomeBudgetFormProps> = (props) => {
 
 const dispatch = useDispatch();
 const userId = useSelector((state: AppState) => state.userId);    
+const JWT = useSelector((state: AppState) => state.jwtToken);
 
 const formik = useFormik({
     initialValues: {
@@ -35,7 +36,7 @@ const formik = useFormik({
             reOccuring: values.reOccuring,
         }
         try {   
-            let responseIncome : Income = await postIncome(postIncomeDto, userId);
+            let responseIncome : Income = await postIncome(postIncomeDto, userId, JWT);
             if(responseIncome){                  
                 dispatch(showAlert({ success: true, message: "Inkomst är skapad." }));             
                 resetForm();
