@@ -103,7 +103,7 @@ if (isAuthorized === false) return <></>
     return(
       <Container className='darkBackground mt-5'> 
         <Row>
-          <Col>
+          <Col className='mb-2'>
             <h3 className='text-center mp-green-text mb-3 bg-black rounded-2 p-1'>Ny Inkomst</h3>
             <IncomeBudgetForm fetchIncomes={fetchIncomes}/>
           </Col>          

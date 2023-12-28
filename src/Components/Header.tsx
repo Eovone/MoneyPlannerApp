@@ -69,10 +69,10 @@ const Header: FC = () => {
             <>
               <Nav className="custom-centered-nav">
                 <Link to="/">
-                  <Button variant="light" className={`${isActive('/')}`}>Logga in</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/')}`}>Logga in</Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="light" className={`${isActive('/register')}`}>Inget konto? Registrera dig</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/register')}`}>Inget konto? Registrera dig</Button>
                 </Link>
               </Nav>
             </>
