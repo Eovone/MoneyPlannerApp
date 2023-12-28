@@ -15,18 +15,28 @@ import IncomeEditModal from '../Components/Income/IncomeEditModal';
 import { PostIncomeDto } from '../Models/Dto/PostIncomeDto';
 import IncomeDeleteModal from '../Components/Income/IncomeDeleteModal';
 import MonthSelector from '../Components/MonthSelector';
+import { useNavigate } from 'react-router-dom';
 
 const IncomeView: FC = () => {
 
   const dispatch = useDispatch();
+  const redirect = useNavigate();
   const userId = useSelector((state: AppState) => state.userId);
   const JWT = useSelector((state: AppState) => state.jwtToken);
+  const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
+
 
   const [listOfIncomes, setListOfIncomes] = useState<Income[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    if (isAuthorized === false) {
+      redirect('/');
+    }
+  }, [isAuthorized, redirect]);
 
   const fetchIncomes = async () => {
     try {
@@ -88,14 +98,10 @@ const handleUpdateIncome = async (updatedIncome: PostIncomeDto, incomeId: number
   }
 };
 
-    return(
-      <Container className='darkBackground mt-5'>
-        <Row>
-          <Col>
-            <h1 className='text-center mp-green-text mb-3'>Inkomster</h1>
-          </Col>
-        </Row>
+if (isAuthorized === false) return <></>
 
+    return(
+      <Container className='darkBackground mt-5'> 
         <Row>
           <Col>
             <h3 className='text-center mp-green-text mb-3'>Ny Inkomst</h3>

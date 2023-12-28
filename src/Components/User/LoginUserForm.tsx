@@ -18,9 +18,9 @@ const LoginUserForm: FC = () => {
 
     const isAuthorized = useSelector((state: AppState) => state.isAuthorized); 
 
-    useEffect(() => {
+    useEffect(() => {        
         if (isAuthorized === true) {
-          redirect('/Home');
+          redirect('/home');
         }
       }, [isAuthorized, redirect]);
 

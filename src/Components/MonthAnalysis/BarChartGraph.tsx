@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Bar, BarChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartData } from '../../Models/ChartData';
 
 interface BarChartGraphProps {
@@ -26,7 +26,6 @@ const BarChartGraph: FC<BarChartGraphProps> = (props) => {
                         <XAxis dataKey="date" stroke='white' />
                         <YAxis stroke='white'/>
                         <Tooltip labelFormatter={(label: string) => `Datum: ${label}`}/>
-                        <Legend />
                         <Bar dataKey="Inkomst" fill='green' />
                         <Bar dataKey="Utgift" fill='red' />                    
                     </BarChart>
@@ -36,4 +35,4 @@ const BarChartGraph: FC<BarChartGraphProps> = (props) => {
     )    
 }
   
-  export default BarChartGraph;
+export default BarChartGraph;

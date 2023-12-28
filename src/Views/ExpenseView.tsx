@@ -6,7 +6,7 @@ import ExpenseBudgetForm from '../Components/Expense/ExpenseBudgetForm';
 import { Expense } from '../Models/Expense';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
-import { getExpenses, updateExpense, deleteExpense, getExpensesByMonth } from '../Services/ExpenseService';
+import { updateExpense, deleteExpense, getExpensesByMonth } from '../Services/ExpenseService';
 import { showAlert } from '../Store/actionCreators';
 import { PostExpenseDto } from '../Models/Dto/PostExpenseDto';
 import { Button } from 'react-bootstrap';
@@ -15,18 +15,27 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExpenseEditModal from '../Components/Expense/ExpenseEditModal';
 import ExpenseDeleteModal from '../Components/Expense/ExpenseDeleteModal';
 import MonthSelector from '../Components/MonthSelector';
+import { useNavigate } from 'react-router-dom';
 
 const ExpenseView: FC = () => {  
 
+  const redirect = useNavigate();
   const dispatch = useDispatch();
   const userId = useSelector((state: AppState) => state.userId);
   const JWT = useSelector((state: AppState) => state.jwtToken);
+  const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
 
   const [listOfExpenses, setListOfExpenses] = useState<Expense[]>([]);  
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    if (isAuthorized === false) {
+      redirect('/');
+    }
+  }, [isAuthorized, redirect]);
 
   const fetchExpenses = async () => {
     try {
@@ -88,15 +97,16 @@ const ExpenseView: FC = () => {
     }
   };
 
+  if (isAuthorized === false) return <></>
+
     return(
       <Container className='darkBackground mt-5'>
         <Row>
           <Col>
-            <h1 className='text-center mp-green-text'>Utgifter</h1>
-          </Col>
-        </Row>
+            <h3 className='text-center mp-green-text mb-3'>Ny Utgift</h3>
+            <ExpenseBudgetForm fetchExpenses={fetchExpenses}/>
+          </Col> 
 
-        <Row>
           <Col>
           <div>
 
@@ -148,12 +158,7 @@ const ExpenseView: FC = () => {
                   </div>
                 ))}
             </div>
-          </Col>
-
-          <Col>
-            <h3 className='text-center mp-green-text mb-3'>Ny Utgift</h3>
-            <ExpenseBudgetForm fetchExpenses={fetchExpenses}/>
-          </Col>  
+          </Col>           
         </Row>
 
         <ExpenseEditModal show={showEditModal} 
@@ -171,4 +176,4 @@ const ExpenseView: FC = () => {
     )    
 }
   
-  export default ExpenseView;
+export default ExpenseView;

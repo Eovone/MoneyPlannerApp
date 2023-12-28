@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from './Store/Store';
 import { hideAlert } from './Store/actionCreators';
 import { useEffect } from 'react';
+import SummaryView from './Views/SummaryView';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,11 +44,12 @@ function App() {
                    </Alert> : null }
 
       <Routes>
-        <Route path='/Home' element={<Home />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/register' element={<CreateUserForm />} />
         <Route path='/' element={<LoginUserForm />} />
-        <Route path='/incomes' element={<IncomeView /> }/>
-        <Route path='/expenses' element={<ExpenseView /> }/>
+        <Route path='/incomes' element={<IncomeView /> } />
+        <Route path='/expenses' element={<ExpenseView /> } />
+        <Route path='/summary' element={<SummaryView />} />
       </Routes>
     </div>
   );

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartData } from '../../Models/ChartData';
 
 interface LineChartGraphProps {
@@ -27,7 +27,6 @@ const LineChartGraph: FC<LineChartGraphProps> = (props) => {
                         <XAxis dataKey="date" stroke='white' />
                         <YAxis stroke='white'/>
                         <Tooltip labelFormatter={(label: string) => `Datum: ${label}`} />
-                        <Legend />
                         <Line type="monotone" dataKey="Summa" stroke={props.strokeColor} strokeWidth={3} r={0}/>                                                            
                     </LineChart>
                 </Col>
@@ -36,4 +35,4 @@ const LineChartGraph: FC<LineChartGraphProps> = (props) => {
     )    
 }
   
-  export default LineChartGraph;
+export default LineChartGraph;
