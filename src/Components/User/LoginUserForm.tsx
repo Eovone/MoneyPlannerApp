@@ -19,6 +19,7 @@ const LoginUserForm: FC = () => {
     const isAuthorized = useSelector((state: AppState) => state.isAuthorized); 
 
     useEffect(() => {        
+        console.log(isAuthorized)
         if (isAuthorized === true) {
           redirect('/home');
         }
@@ -62,7 +63,7 @@ const LoginUserForm: FC = () => {
         <Form noValidate onSubmit={formik.handleSubmit}>
             <Row className='align-items-center'>
                 <Col className=''>
-                    <h1 className='mb-3 text-center mp-green-text'>Logga in</h1>
+                    <h1 className='mb-3 text-center mp-green-text bg-black rounded-2 p-1'>Logga in</h1>
                     <Form.Group className="mb-3 d-flex align-items-center">
                         <Form.Label column md={4} className='mx-2 text-light text-md-end'>Användarnamn: </Form.Label>
                         <Col md={8}>
@@ -73,6 +74,7 @@ const LoginUserForm: FC = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.username}
                             isInvalid={formik.touched.username && !!formik.errors.username}
+                            aria-label='username input'
                         />
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.username}
@@ -90,6 +92,7 @@ const LoginUserForm: FC = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                             isInvalid={formik.touched.password && !!formik.errors.password}
+                            aria-label='password input'
                         />
                         <Form.Control.Feedback type='invalid'>
                             {formik.errors.password}

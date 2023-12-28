@@ -99,7 +99,7 @@ const strokeColor = lastTotal > 0 ? 'green' : 'red';
                         </Row>
                         <Row className='mt-3'>
                             <Col className='text-center d-flex justify-content-center'>
-                                <p className='text-light'>
+                                <p className='text-light bg-black rounded-2 p-1'>
                                     Det finns ingen månadsanalys för {currentDate.toLocaleString('default', { month: 'long' })} än.
                                 </p>
                             </Col>
@@ -116,7 +116,7 @@ const strokeColor = lastTotal > 0 ? 'green' : 'red';
                         </Row>
                         <Row className='text-light text-center mt-3 bg-dark rounded-1 '>
                             <Col>
-                                <h4 className='mp-green-text'>Sammanfattning</h4>
+                                <h4 className='mp-green-text bg-black rounded-2 p-1'>Sammanfattning</h4>
                                 <p>
                                     Summa för månaden: 
                                     <span style={{ color: strokeColor }}> {lastTotal} kr</span>
@@ -124,12 +124,12 @@ const strokeColor = lastTotal > 0 ? 'green' : 'red';
                                 <hr/>
                                 <p>
                                     Största Utgift: {largestExpenseTitle} 
-                                    <span className="text-danger"> -{largestExpense} kr</span>
+                                    <span style={{ color: "red" }}> -{largestExpense} kr</span>
                                 </p>
                                 <hr/>
                                 <p>
                                     Högsta Inkomst: {largestIncomeTitle} 
-                                    <span className="text-success"> +{largestIncome} kr</span>
+                                    <span style={{ color: "green" }}> +{largestIncome} kr</span>
                                 </p>
                                 
                             </Col>

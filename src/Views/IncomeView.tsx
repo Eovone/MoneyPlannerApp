@@ -104,7 +104,7 @@ if (isAuthorized === false) return <></>
       <Container className='darkBackground mt-5'> 
         <Row>
           <Col>
-            <h3 className='text-center mp-green-text mb-3'>Ny Inkomst</h3>
+            <h3 className='text-center mp-green-text mb-3 bg-black rounded-2 p-1'>Ny Inkomst</h3>
             <IncomeBudgetForm fetchIncomes={fetchIncomes}/>
           </Col>          
 
@@ -112,23 +112,23 @@ if (isAuthorized === false) return <></>
             <div>            
               <MonthSelector currentDate={currentDate} setCurrentDate={setCurrentDate}/>
 
-              <h4 className='text-center mp-green-text bg-dark mt-2'>Månadsvis</h4>
+              <h4 className='text-center mp-green-text bg-black rounded-2 p-1 mt-2'>Månadsvis</h4>
               {listOfIncomes
                 .filter((income) => income.reOccuring)
                 .map((income) => (
                   <div key={income.id} className='text-light text-center p-1'>
                     <div className='d-flex justify-content-between align-items-center mb-2'>
-                    <Button variant='warning' onClick={() => handleEdit(income)}>
+                    <Button variant='warning' onClick={() => handleEdit(income)} aria-label='edit income'>
                       <EditIcon />
                     </Button>
-                    <h5 className='fw-bold'>{income.title}</h5>
-                    <Button variant='danger' onClick={() => handleClickDelete(income)}>
+                    <h5 className='fw-bold bg-black rounded-2 p-1'>{income.title}</h5>
+                    <Button variant='danger' onClick={() => handleClickDelete(income)} aria-label='delete income'>
                       <DeleteForeverIcon />
                     </Button>
                     </div>                
                     <div className='d-flex justify-content-around'>
-                      <p className='bg-dark rounded-1 p-1 mp-green-text'>+{income.amount} kr</p>
-                      <p className='bg-dark rounded-1 p-1'>När: {getFormattedDay(income.date)}</p>
+                      <p className='bg-black rounded-2 p-1 mp-green-text'>+{income.amount} kr</p>
+                      <p className='bg-black rounded-2 p-1'>När: {getFormattedDay(income.date)}</p>
                     </div>                    
                     <hr />
                   </div>                  
@@ -136,23 +136,23 @@ if (isAuthorized === false) return <></>
             </div>            
 
             <div>
-              <h4 className='text-center mp-green-text bg-dark'>Andra inkomster</h4>
+              <h4 className='text-center mp-green-text bg-black rounded-2 p-1'>Andra inkomster</h4>
               {listOfIncomes
                 .filter((income) => !income.reOccuring)
                 .map((income) => (
                   <div key={income.id} className='text-light text-center p-1'>
                     <div className='d-flex justify-content-between align-items-center mb-2'>
-                    <Button variant='warning' onClick={() => handleEdit(income)}>
+                    <Button variant='warning' onClick={() => handleEdit(income)} aria-label='edit income'>
                       <EditIcon />
                     </Button>
-                    <h5 className='fw-bold'>{income.title}</h5>
-                    <Button variant='danger' onClick={() => handleClickDelete(income)}>
+                    <h5 className='fw-bold bg-black rounded-2 p-1'>{income.title}</h5>
+                    <Button variant='danger' onClick={() => handleClickDelete(income)} aria-label='delete income'>
                       <DeleteForeverIcon />
                     </Button>
                     </div>
                     <div className='d-flex justify-content-around'>
-                      <p className='bg-dark rounded-1 p-1 mp-green-text'>+{income.amount} kr</p>
-                      <p className='bg-dark rounded-1 p-1'>{new Date(income.date).toLocaleDateString()}</p>
+                      <p className='bg-black rounded-2 p-1 mp-green-text'>+{income.amount} kr</p>
+                      <p className='bg-black rounded-2 p-1'>{new Date(income.date).toLocaleDateString()}</p>
                     </div>                    
                     <hr />
                   </div>
