@@ -5,3 +5,12 @@
 .btn-primary:hover{
     background-color: rgb(136, 185, 136) !important; 
 }
+.active.btn.btn-light{
+    background-color: rgb(136, 185, 136);  
+}
+.active.btn.btn-light:hover{
+    background-color: rgb(87, 104, 87);  
+}
+.btn.btn-light:hover{
+    background-color: rgb(87, 104, 87);  
+}

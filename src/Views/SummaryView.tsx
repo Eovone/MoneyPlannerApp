@@ -5,8 +5,9 @@ import Col from 'react-bootstrap/Col'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
+import MonthAnalysisView from './MonthAnalysisView';
 
-const Home: FC = () => {
+const SummaryView: FC = () => {
   const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
   const redirect = useNavigate();
 
@@ -19,14 +20,14 @@ const Home: FC = () => {
   if (isAuthorized === false) return <></>
   
     return(
-      <Container className='darkBackground mt-5'>
+      <Container className='darkBackground mt-5'> 
         <Row>
           <Col>
-            <h1 className='text-center mp-green-text'>Hem</h1>
+            <MonthAnalysisView />
           </Col>
-        </Row>       
+        </Row>
       </Container>     
     )    
 }
   
-export default Home;
+export default SummaryView;

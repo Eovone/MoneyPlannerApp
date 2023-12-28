@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
 import { resetState } from '../Store/actionCreators';
@@ -11,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const Header: FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const redirect = useNavigate();
   const [expanded, setExpanded] = useState(false);
 
@@ -21,6 +22,10 @@ const Header: FC = () => {
     localStorage.clear();
     dispatch(resetState());
     redirect('/');
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname === path ? 'active' : '';
   };
 
   return (
@@ -40,20 +45,22 @@ const Header: FC = () => {
             <>
               <Nav className="custom-centered-nav">
                 <Link to="/home">
-                  <Button variant="light" className='m-1'>Hem</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/home')}`}>Hem</Button>
                 </Link>
                 <Link to="/incomes">
-                  <Button variant="light" className='m-1'>Inkomster</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/incomes')}`}>Inkomster</Button>
                 </Link>
                 <Link to="/expenses">
-                  <Button variant="light" className='m-1'>Utgifter</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/expenses')}`}>Utgifter</Button>
+                </Link>
+                <Link to="/summary">
+                  <Button variant="light" className={`m-1 ${isActive('/summary')}`}>Sammanfattning</Button>
                 </Link>
 
                 <Navbar.Text className="white-text">{userName}</Navbar.Text>
-                <Button variant="light" onClick={handleLogout} className="mx-2">
-                    Logga ut
+                <Button variant="light" onClick={handleLogout}>
+                  Logga ut
                 </Button>
-              
               </Nav>
 
             </>
@@ -61,13 +68,12 @@ const Header: FC = () => {
             <>
               <Nav className="custom-centered-nav">
                 <Link to="/">
-                  <Button variant="light">Logga in</Button>
+                  <Button variant="light" className={`${isActive('/')}`}>Logga in</Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="light">Inget konto? Registrera dig</Button>
+                  <Button variant="light" className={`${isActive('/register')}`}>Inget konto? Registrera dig</Button>
                 </Link>
               </Nav>
-              <Navbar.Text className="white-text">Ej inloggad</Navbar.Text>
             </>
           )}
         </Navbar.Collapse>

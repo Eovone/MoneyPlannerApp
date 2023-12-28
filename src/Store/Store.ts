@@ -80,7 +80,9 @@ const jwtReducer = (state = initialState.jwtToken, action: any) => {
 
 const rootReducer = (state = initialState, action: any) => {
   if (action.type === 'RESET_STATE') {
-    state = initialState;
+    return {
+      ...initialState,
+    };
   }
 
   return {
