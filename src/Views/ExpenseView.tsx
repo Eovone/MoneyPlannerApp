@@ -102,8 +102,8 @@ const ExpenseView: FC = () => {
     return(
       <Container className='darkBackground mt-5'>
         <Row>
-          <Col>
-            <h3 className='text-center mp-green-text mb-3'>Ny Utgift</h3>
+          <Col className='mb-2'>
+            <h3 className='text-center mp-green-text mb-3 bg-black rounded-2 p-1'>Ny Utgift</h3>
             <ExpenseBudgetForm fetchExpenses={fetchExpenses}/>
           </Col> 
 
@@ -112,23 +112,23 @@ const ExpenseView: FC = () => {
 
             <MonthSelector currentDate={currentDate} setCurrentDate={setCurrentDate}/>
 
-              <h4 className='text-center mp-green-text bg-dark mt-2'>Månadsvis</h4>
+              <h4 className='text-center mp-green-text bg-black rounded-2 p-1 mt-2'>Månadsvis</h4>
               {listOfExpenses
                 .filter((expense) => expense.reOccuring)
                 .map((expense) => (
                   <div key={expense.id} className='text-light text-center p-1'>
                     <div className='d-flex justify-content-between align-items-center mb-2'>
-                    <Button variant='warning' onClick={() => handleEdit(expense)}>
+                    <Button variant='warning' onClick={() => handleEdit(expense)} aria-label='edit expense'>
                       <EditIcon />
                     </Button>
-                    <h5 className='fw-bold'>{expense.title}</h5>
-                    <Button variant='danger' onClick={() => handleClickDelete(expense)}>
+                    <h5 className='fw-bold bg-black rounded-2 p-1'>{expense.title}</h5>
+                    <Button variant='danger' onClick={() => handleClickDelete(expense)} aria-label='delete expense'>
                       <DeleteForeverIcon />
                     </Button>
                     </div>                
                     <div className='d-flex justify-content-around'>
-                      <p className='bg-dark rounded-1 p-1 text-danger'>-{expense.amount} kr</p>
-                      <p className='bg-dark rounded-1 p-1'>När: {getFormattedDay(expense.date)}</p>
+                      <p className='bg-black rounded-2 p-1 text-danger'>-{expense.amount} kr</p>
+                      <p className='bg-black rounded-2 p-1'>När: {getFormattedDay(expense.date)}</p>
                     </div>                    
                     <hr />
                   </div>                  
@@ -136,23 +136,23 @@ const ExpenseView: FC = () => {
             </div>            
 
             <div>
-              <h4 className='text-center mp-green-text bg-dark'>Andra utgifter</h4>
+              <h4 className='text-center mp-green-text bg-black rounded-2 p-1'>Andra utgifter</h4>
               {listOfExpenses
                 .filter((expense) => !expense.reOccuring)
                 .map((expense) => (
                   <div key={expense.id} className='text-light text-center p-1'>
                     <div className='d-flex justify-content-between align-items-center mb-2'>
-                    <Button variant='warning' onClick={() => handleEdit(expense)}>
+                    <Button variant='warning' onClick={() => handleEdit(expense)} aria-label='edit expense'>
                       <EditIcon />
                     </Button>
-                    <h5 className='fw-bold'>{expense.title}</h5>
-                    <Button variant='danger' onClick={() => handleClickDelete(expense)}>
+                    <h5 className='fw-bold bg-black rounded-2 p-1'>{expense.title}</h5>
+                    <Button variant='danger' onClick={() => handleClickDelete(expense)} aria-label='delete expense'>
                       <DeleteForeverIcon />
                     </Button>
                     </div>
                     <div className='d-flex justify-content-around'>
-                      <p className='bg-dark rounded-1 p-1 text-danger'>-{expense.amount} kr</p>
-                      <p className='bg-dark rounded-1 p-1'>{new Date(expense.date).toLocaleDateString()}</p>
+                      <p className='bg-black rounded-2 p-1 text-danger'>-{expense.amount} kr</p>
+                      <p className='bg-black rounded-2 p-1'>{new Date(expense.date).toLocaleDateString()}</p>
                     </div>                    
                     <hr />
                   </div>

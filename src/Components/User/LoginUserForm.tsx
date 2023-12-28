@@ -46,7 +46,7 @@ const LoginUserForm: FC = () => {
                     dispatch(showAlert({ success: true, message: "Inloggning lyckades! Välkommen" }));  
                     dispatch(setAuthStatus(true));                      
                     
-                    redirect('/Home');
+                    redirect('/home');
                 }                
                 else{
                     dispatch(showAlert({ success: false, message: "Inloggning misslyckades!" }));
@@ -58,12 +58,12 @@ const LoginUserForm: FC = () => {
     });
 
     return(
-      <Container className='mt-3 p-2 d-flex justify-content-center darkBackground w-50'>
+      <Container className='p-2 d-flex justify-content-center'>
         <Form noValidate onSubmit={formik.handleSubmit}>
-            <Row className='align-items-center'>
+            <Row className='align-items-center darkBackground'>
                 <Col className=''>
-                    <h1 className='mb-3 text-center mp-green-text'>Logga in</h1>
-                    <Form.Group className="mb-3 d-flex align-items-center">
+                    <h1 className='mb-3 text-center mp-green-text bg-black rounded-2 p-1'>Logga in</h1>
+                    <Form.Group className="mb-3 d-flex align-items-center custom-margin-right">
                         <Form.Label column md={4} className='mx-2 text-light text-md-end'>Användarnamn: </Form.Label>
                         <Col md={8}>
                         <Form.Control
@@ -73,6 +73,7 @@ const LoginUserForm: FC = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.username}
                             isInvalid={formik.touched.username && !!formik.errors.username}
+                            aria-label='username input'
                         />
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.username}
@@ -80,7 +81,7 @@ const LoginUserForm: FC = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group className="mb-1 d-flex">
+                    <Form.Group className="mb-1 d-flex align-items-center custom-margin-right">
                         <Form.Label column md={4} className='mx-2 text-light text-md-end'>Lösenord: </Form.Label>
                         <Col md={8}>
                         <Form.Control 
@@ -90,6 +91,7 @@ const LoginUserForm: FC = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                             isInvalid={formik.touched.password && !!formik.errors.password}
+                            aria-label='password input'
                         />
                         <Form.Control.Feedback type='invalid'>
                             {formik.errors.password}

@@ -64,12 +64,12 @@ const formik = useFormik({
 
     return(
         
-      <Container className='mt-3 p-2 d-flex justify-content-center darkBackground w-50'>
+      <Container className='mt-3 p-2 d-flex justify-content-center'>
         <Form noValidate onSubmit={formik.handleSubmit}>
-            <Row className='align-items-center'>
+            <Row className='align-items-center darkBackground'>
                 <Col>
-                    <h1 className='mb-3 text-center mp-green-text'>Registrera ny användare</h1>
-                    <Form.Group className="mb-3 d-flex align-items-center">
+                    <h1 className='mb-3 text-center mp-green-text bg-black rounded-2 p-1'>Registrera ny användare</h1>
+                    <Form.Group className="mb-3 d-flex align-items-center custom-margin-right">
                         <Form.Label column md={4} className='mx-2 text-light text-md-end'>Användarnamn: </Form.Label>
                         <Col md={8}>
                         <Form.Control
@@ -79,6 +79,7 @@ const formik = useFormik({
                             onBlur={formik.handleBlur}
                             value={formik.values.username}
                             isInvalid={formik.touched.username && !!formik.errors.username}
+                            aria-label='username input'
                         />
                         <Form.Control.Feedback type="invalid">
                             {formik.errors.username}
@@ -86,7 +87,7 @@ const formik = useFormik({
                         </Col>
                     </Form.Group>                  
 
-                    <Form.Group className="mb-1 d-flex">
+                    <Form.Group className="mb-1 d-flex custom-margin-right">
                         <Form.Label column md={4} className='mx-2 text-light text-md-end'>Lösenord: </Form.Label>
                         <Col md={8}>
                         <Form.Control 
@@ -96,6 +97,7 @@ const formik = useFormik({
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                             isInvalid={formik.touched.password && !!formik.errors.password}
+                            aria-label='password input'
                         />
                         <Form.Control.Feedback type='invalid'>
                             {formik.errors.password}
@@ -103,7 +105,7 @@ const formik = useFormik({
                         </Col>
                     </Form.Group>
 
-                    <Form.Group className="mb-3 d-flex">
+                    <Form.Group className="mb-3 d-flex custom-margin-right">
                         <Form.Label column md={4} className='mx-2 text-light text-md-end'>Upprepa Lösenord: </Form.Label>
                         <Col md={8}>
                         <Form.Control 
@@ -113,6 +115,7 @@ const formik = useFormik({
                             onBlur={formik.handleBlur}
                             value={formik.values.confirmPassword}
                             isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                            aria-label='repeat-password input'
                         />
                         <Form.Control.Feedback type='invalid'>
                             {formik.errors.confirmPassword}

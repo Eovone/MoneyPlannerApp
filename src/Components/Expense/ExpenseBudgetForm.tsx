@@ -67,6 +67,7 @@ const formik = useFormik({
                     onBlur={formik.handleBlur}
                     value={formik.values.title}
                     isInvalid={formik.touched.title && !!formik.errors.title}
+                    aria-label='titel input'
                 />
                 <Form.Control.Feedback type="invalid">
                     {formik.errors.title}
@@ -84,6 +85,7 @@ const formik = useFormik({
                         onBlur={formik.handleBlur}
                         value={formik.values.amount}
                         isInvalid={formik.touched.amount && !!formik.errors.amount}
+                        aria-label='amount input'
                     />
                     <Form.Control.Feedback type="invalid">
                         {formik.errors.amount}
@@ -104,6 +106,7 @@ const formik = useFormik({
                         onBlur={formik.handleBlur}
                         value={formik.values.date.toISOString().split('T')[0]}
                         isInvalid={formik.touched.date && !!formik.errors.date}
+                        aria-label='date input'
                     />
                     <Form.Control.Feedback type="invalid">
                         {formik.errors.date ? String(formik.errors.date) : ''}
@@ -124,6 +127,7 @@ const formik = useFormik({
                         isInvalid={formik.touched.reOccuring && !!formik.errors.reOccuring}  
                         className='text-center'
                         id="custom-checkbox"
+                        aria-label='reoccuring input-checkbox'
                     />                  
                     <Form.Control.Feedback type="invalid">
                         {formik.errors.reOccuring}

@@ -16,6 +16,7 @@ import { AppState } from './Store/Store';
 import { hideAlert } from './Store/actionCreators';
 import { useEffect } from 'react';
 import SummaryView from './Views/SummaryView';
+import LoginView from './Views/LoginView';
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ function App() {
       <Routes>
         <Route path='/home' element={<Home />} />
         <Route path='/register' element={<CreateUserForm />} />
-        <Route path='/' element={<LoginUserForm />} />
+        <Route path='/' element={<LoginView />} />
         <Route path='/incomes' element={<IncomeView /> } />
         <Route path='/expenses' element={<ExpenseView /> } />
         <Route path='/summary' element={<SummaryView />} />

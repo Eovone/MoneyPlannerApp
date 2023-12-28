@@ -1,27 +1,19 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { AppState } from '../Store/Store';
 import { Image } from 'react-bootstrap';
+import LoginUserForm from '../Components/User/LoginUserForm';
+import { useLocation } from 'react-router-dom';
 
-const Home: FC = () => {
-  const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
-  const redirect = useNavigate();
-
-  useEffect(() => {
-    if (isAuthorized === false) {
-      redirect('/');
-    }
-  }, [isAuthorized, redirect]);
-
-  if (isAuthorized === false) return <></>
+const LoginView: FC = () => {  
   
     return(
-      <Container className='bg-dark mt-5 text-light p-1 rounded-1 '>
+      <Container className='mt-3 text-light p-1 rounded-1'>
 
+        <LoginUserForm />
+
+        <div className='bg-dark p-1 rounded-1'>
         <Row className='mb-2'>
           <Col className='text-center text-light'>
             <h2 className='bg-black rounded-2 p-1'>Välkommen till <span className='mp-green-text'>MoneyPlanner!</span></h2>
@@ -64,9 +56,10 @@ const Home: FC = () => {
           <Col className='text-center col-lg-6 col-12'>
             <Image src='/homeimg1.png' alt='example image of summary' className='img-fluid border border-2 border-light rounded-2 '/>
           </Col>
-        </Row>       
+        </Row>     
+        </div>  
       </Container>     
     )    
 }
   
-export default Home;
+export default LoginView;

@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
-import { resetState } from '../Store/actionCreators';
+import { resetState, setAuthStatus } from '../Store/actionCreators';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Header: FC = () => {
@@ -20,6 +20,7 @@ const Header: FC = () => {
 
   const handleLogout = () => {
     localStorage.clear();
+    dispatch(setAuthStatus(false));
     dispatch(resetState());
     redirect('/');
   };
@@ -68,10 +69,10 @@ const Header: FC = () => {
             <>
               <Nav className="custom-centered-nav">
                 <Link to="/">
-                  <Button variant="light" className={`${isActive('/')}`}>Logga in</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/')}`}>Logga in</Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="light" className={`${isActive('/register')}`}>Inget konto? Registrera dig</Button>
+                  <Button variant="light" className={`m-1 ${isActive('/register')}`}>Inget konto? Registrera dig</Button>
                 </Link>
               </Nav>
             </>
