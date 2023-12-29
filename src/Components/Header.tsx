@@ -57,6 +57,9 @@ const Header: FC = () => {
                 <Link to="/summary">
                   <Button variant="light" className={`m-1 ${isActive('/summary')}`}>Sammanfattning</Button>
                 </Link>
+                <Link to="/planning">
+                  <Button variant="light" className={`m-1 ${isActive('/planning')}`}>Budgetplanering</Button>
+                </Link>
 
                 <Navbar.Text className="white-text">{userName}</Navbar.Text>
                 <Button variant="light" onClick={handleLogout}>

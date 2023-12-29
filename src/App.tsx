@@ -7,7 +7,6 @@ import Home from './Views/Home';
 import { Routes, Route } from 'react-router-dom';
 import CreateUserForm from './Components/User/CreateUserForm';
 import Header from './Components/Header';
-import LoginUserForm from './Components/User/LoginUserForm';
 import Alert from 'react-bootstrap/Alert';
 import IncomeView from './Views/IncomeView';
 import ExpenseView from './Views/ExpenseView';
@@ -17,6 +16,7 @@ import { hideAlert } from './Store/actionCreators';
 import { useEffect } from 'react';
 import SummaryView from './Views/SummaryView';
 import LoginView from './Views/LoginView';
+import BudgetPlanningView from './Views/BudgetPlanningView';
 
 function App() {
   const dispatch = useDispatch();
@@ -51,6 +51,7 @@ function App() {
         <Route path='/incomes' element={<IncomeView /> } />
         <Route path='/expenses' element={<ExpenseView /> } />
         <Route path='/summary' element={<SummaryView />} />
+        <Route path='/planning' element={<BudgetPlanningView />} />
       </Routes>
     </div>
   );
