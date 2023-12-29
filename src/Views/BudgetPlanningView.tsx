@@ -11,7 +11,7 @@ import { Button } from 'react-bootstrap';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { PostBudgetPlanDto } from '../Models/Dto/PostBudgetPlanDto';
 import { BudgetPlan } from '../Models/BudgetPlan';
-import { postBudgetPlan } from '../Services/BudgetPlanningService';
+import { getUserBudgetPlan, postBudgetPlan } from '../Services/BudgetPlanningService';
 import { showAlert } from '../Store/actionCreators';
 
 const BudgetPlanningView: FC = () => {
@@ -38,6 +38,21 @@ const calculateSummaryAmount = (list: BudgetPlanItem[]): number => {
     return summaryAmount;
 };
 
+const fetchBudgetPlan = async () => {
+    try {
+      const responseBudgetPlan: BudgetPlan = await getUserBudgetPlan(userId, JWT);
+      if (responseBudgetPlan){
+        setBudgetPlanList(responseBudgetPlan.budgetPlanItemsDto);
+      }   
+    } catch (error) {        
+      dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte hämta din Budgettavla." })); 
+    }
+  }; 
+
+  useEffect(() => {    
+      fetchBudgetPlan();
+  }, []);
+
   useEffect(() => {
     if (isAuthorized === false) {
       redirect('/');
@@ -57,13 +72,18 @@ const handleSaveBudgetPlan = async () => {
     let summaryAmountCalculated = calculateSummaryAmount(budgetPlanList);    
 
     let postBudgetPlanDto: PostBudgetPlanDto = {
-        budgetPlanItems: budgetPlanList,
+        budgetPlanItemsDto: budgetPlanList,
         summaryAmount: summaryAmountCalculated,
     }
     try {
         const responseBudgetPlan: BudgetPlan = await postBudgetPlan(postBudgetPlanDto, userId, JWT);
-        setBudgetPlanList(responseBudgetPlan.budgetPlanItems);
-        dispatch(showAlert({ success: true, message: "Din Budgettavla är sparad." })); 
+        if (responseBudgetPlan){
+            dispatch(showAlert({ success: true, message: "Din Budgettavla är sparad." }));
+            fetchBudgetPlan();
+        }
+        else {
+            dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte spara din Budgettavla." }));
+        }
       } catch (error) {        
         dispatch(showAlert({ success: false, message: "Något gick fel när vi försökte spara din Budgettavla." })); 
       }
@@ -73,7 +93,6 @@ const handleSaveBudgetPlan = async () => {
   
     return(
       <Container className='mt-5 text-light p-1 rounded-1'>
-        <h3 className='text-center mp-green-text mb-3 bg-black rounded-2 p-1'>Ny Inkomst/Utgift</h3>
         <BudgetPlanningForm budgetPlanList={budgetPlanList} setBudgetPlanList={setBudgetPlanList}/>
 
         {budgetPlanList.length === 0 ? (
@@ -81,13 +100,13 @@ const handleSaveBudgetPlan = async () => {
                 <p>Du har inget på din budgettavla än, börja planera!</p>
             </div> 
             ) : (
-            <div>
-                <div className='bg-black mt-2 rounded-2 p-1 text-center'>
-                    <h3 className='mp-green-text'>Din Budgettavla</h3>
-                    <p>Summa: {calculateSummaryAmount(budgetPlanList)}</p>
-                    <Button onClick={handleSaveBudgetPlan}>Spara</Button>
-                </div>
-                <Row className='darkBackground rounded-2 p-1 text-center'>
+            <div>                
+                <Row className='darkBackground mt-2 rounded-2 p-1 text-center'>
+                    <div className='rounded-2 p-1 text-center'>
+                        <h3 className='mp-green-text rounded-2 bg-black '>Din Budgettavla</h3>
+                        <p className='bg-black rounded-2'>Summa: {calculateSummaryAmount(budgetPlanList)}</p>
+                        <Button onClick={handleSaveBudgetPlan}>Spara</Button>
+                    </div>
                     <Col className='border-end'>
                         {budgetPlanList
                         .filter((budgetPlanItem) => budgetPlanItem.isIncome)
@@ -101,7 +120,6 @@ const handleSaveBudgetPlan = async () => {
                             </div>                
                             <div className='d-flex justify-content-around'>
                             <p className='bg-black rounded-2 p-1 mp-green-text'>+{budgetPlanItem.amount} kr</p>
-                            <p className='bg-black rounded-2 p-1'>Återkommande: {budgetPlanItem.reOccuring ? "Ja" : "Nej"}</p>
                             </div>
                             <hr />                    
                         </div>                  
@@ -121,7 +139,6 @@ const handleSaveBudgetPlan = async () => {
                             </div>                
                             <div className='d-flex justify-content-around'>
                             <p className='bg-black rounded-2 p-1 text-danger'>-{budgetPlanItem.amount} kr</p>
-                            <p className='bg-black rounded-2 p-1'>Återkommande: {budgetPlanItem.reOccuring ? "Ja" : "Nej"}</p>
                             </div> 
                             <hr />                   
                         </div>                  

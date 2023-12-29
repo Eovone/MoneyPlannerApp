@@ -17,14 +17,12 @@ const formik = useFormik({
     initialValues: {
         title: '',
         amount: 0,
-        reOccuring: false,
         isIncome: false,
     },
     onSubmit: async (values, { resetForm }) => {
         let budgetPlanItem : BudgetPlanItem = {
             title: values.title,
             amount: values.amount,
-            reOccuring: values.reOccuring,
             isIncome: values.isIncome,
         }
         const updatedBudgetPlanList = [...props.budgetPlanList, budgetPlanItem];
@@ -35,8 +33,10 @@ const formik = useFormik({
 }); 
 
     return(
-    <Container className='darkBackground'>
+    <Container className='darkBackground'>        
         <Row>
+        <h3 className='text-center mp-green-text mb-3 bg-black rounded-2 p-1'>Ny Inkomst/Utgift</h3>
+
         <Col>
             <Form noValidate onSubmit={formik.handleSubmit} >
 
@@ -74,28 +74,7 @@ const formik = useFormik({
                         {formik.errors.amount}
                     </Form.Control.Feedback>
                 </Col>
-            </Form.Group>            
-
-            <Form.Group className="mb-3 d-flex align-items-center custom-margin-right">
-                <Form.Label column md={6} className='text-light text-md-end'>Återkommande varje månad: </Form.Label>
-                <Col md={2}>
-                    <Form.Check 
-                        type='checkbox'
-                        name='reOccuring'
-                        onChange={(e) => {
-                            formik.setFieldValue("reOccuring", e.target.checked);
-                        }}
-                        checked={formik.values.reOccuring}
-                        isInvalid={formik.touched.reOccuring && !!formik.errors.reOccuring}  
-                        className='text-center'
-                        id="custom-checkbox"
-                        aria-label='reoccuring input-checkbox'
-                    />                  
-                    <Form.Control.Feedback type="invalid">
-                        {formik.errors.reOccuring}
-                    </Form.Control.Feedback>
-                </Col>
-            </Form.Group>
+            </Form.Group>  
 
             <Form.Group className="mb-3 text-center">
                 <Col>

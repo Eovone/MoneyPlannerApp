@@ -18,3 +18,18 @@ export const postBudgetPlan = async (postBudgetPlanDto: PostBudgetPlanDto, userI
          console.error('Error creating budgetplan:', error);
      }  
 };
+
+export const getUserBudgetPlan = async (userId: number, jwt: string) => {
+    try {
+        const response =  await axios.get(`${localhost}/User/${userId}`,
+                                {
+                                    headers: {
+                                        Authorization: `bearer ${jwt}`,
+                                    },
+                                }
+                          );
+        return response.data;
+     } catch (error) {
+         console.error('Error getting budgetplan:', error);
+     }  
+};

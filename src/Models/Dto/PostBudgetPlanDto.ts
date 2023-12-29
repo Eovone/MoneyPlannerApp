@@ -1,6 +1,6 @@
 import { BudgetPlanItem } from "../BudgetPlanItem";
 
 export type PostBudgetPlanDto = {   
-    budgetPlanItems: BudgetPlanItem[],
+    budgetPlanItemsDto: BudgetPlanItem[],
     summaryAmount: number, 
 }
