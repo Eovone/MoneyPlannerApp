@@ -49,7 +49,8 @@ const fetchBudgetPlan = async () => {
     }
   }; 
 
-  useEffect(() => {    
+  useEffect(() => {
+    console.log("hämtar budget plan")       
       fetchBudgetPlan();
   }, []);
 
