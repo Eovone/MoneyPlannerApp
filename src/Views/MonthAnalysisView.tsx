@@ -13,6 +13,8 @@ import MonthSelector from '../Components/MonthSelector';
 import { AnalysisSummary, generateChartData } from '../Services/MonthAnalysisHelper';
 import LineChartGraph from '../Components/MonthAnalysis/LineChartGraph';
 import BarChartGraph from '../Components/MonthAnalysis/BarChartGraph';
+import { getUserBudgetPlan } from '../Services/BudgetPlanningService';
+import { BudgetPlan } from '../Models/BudgetPlan';
 
 const MonthAnalysisView: FC = () => { 
     
@@ -23,6 +25,8 @@ const JWT = useSelector((state: AppState) => state.jwtToken);
 const [currentDate, setCurrentDate] = useState(new Date());
 const [currentMonthAnalysis, setCurrentMonthAnalysis] = useState<MonthAnalysis | null>(null);
 
+const [amountFromMonthPlan, setAmountFromMonthPlan] = useState<number>(0);
+
 useEffect(() => {
     let postMonthAnalysisDto: PostMonthAnalysisDto ={
         month: currentDate.getMonth()+1,
@@ -30,6 +34,10 @@ useEffect(() => {
     }
     const fetchMonthAnalysis = async () => {        
         let responseMonthAnalysis = await getMonthAnalysis(postMonthAnalysisDto, userId, JWT);
+        let responseBudgetPlan: BudgetPlan = await getUserBudgetPlan(userId, JWT);
+        if (responseBudgetPlan){
+            setAmountFromMonthPlan(responseBudgetPlan.summaryAmount);
+        }
 
         if (responseMonthAnalysis === 404) {
             setCurrentMonthAnalysis(null);
@@ -65,7 +73,6 @@ const handleGenerateMonthAnalysis = async () => {
     }
 }
 
-
 let analysisSummary: AnalysisSummary = {
     chartData: [],
     largestExpenseTitle: '',
@@ -82,6 +89,9 @@ const { chartData, largestExpenseTitle, largestExpense, largestIncomeTitle, larg
 
 const lastTotal = chartData.length > 0 ? chartData[chartData.length - 1].Summa : 0;
 const strokeColor = lastTotal > 0 ? 'green' : 'red';
+
+const difference = lastTotal - amountFromMonthPlan;
+const color = difference < 0 ? 'red' : 'green';
 
     return (
         <Container>
@@ -120,6 +130,11 @@ const strokeColor = lastTotal > 0 ? 'green' : 'red';
                                 <p>
                                     Summa för månaden: 
                                     <span style={{ color: strokeColor }}> {lastTotal} kr</span>
+                                </p>
+                                <hr/>
+                                <p>
+                                    Skillnad från din budgettavla: 
+                                    <span style={{ color }}> {difference} kr</span>
                                 </p>
                                 <hr/>
                                 <p>

@@ -48,14 +48,17 @@ const Header: FC = () => {
                 <Link to="/home">
                   <Button variant="light" className={`m-1 ${isActive('/home')}`}>Hem</Button>
                 </Link>
+                <Link to="/planning">
+                  <Button variant="light" className={`m-1 ${isActive('/planning')}`}>Budgetplanering</Button>
+                </Link>
+                <Link to="/summary">
+                  <Button variant="light" className={`m-1 ${isActive('/summary')}`}>Sammanfattning</Button>
+                </Link>
                 <Link to="/incomes">
                   <Button variant="light" className={`m-1 ${isActive('/incomes')}`}>Inkomster</Button>
                 </Link>
                 <Link to="/expenses">
                   <Button variant="light" className={`m-1 ${isActive('/expenses')}`}>Utgifter</Button>
-                </Link>
-                <Link to="/summary">
-                  <Button variant="light" className={`m-1 ${isActive('/summary')}`}>Sammanfattning</Button>
                 </Link>
 
                 <Navbar.Text className="white-text">{userName}</Navbar.Text>
