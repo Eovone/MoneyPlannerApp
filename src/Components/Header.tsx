@@ -3,17 +3,14 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { AppState } from '../Store/Store';
-import { resetState, setAuthStatus } from '../Store/actionCreators';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Image } from 'react-bootstrap';
 
 const Header: FC = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
-  const redirect = useNavigate();
   const [expanded, setExpanded] = useState(false);
 
   const isAuthorized = useSelector((state: AppState) => state.isAuthorized);
@@ -21,9 +18,7 @@ const Header: FC = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    dispatch(setAuthStatus(false));
-    dispatch(resetState());
-    redirect('/');
+    window.location.reload();  
   };
 
   const isActive = (path: string) => {
