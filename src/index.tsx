@@ -20,6 +20,4 @@ root.render(
   </React.StrictMode>
 );
 
-
-// TODO: can be removed??
 reportWebVitals();

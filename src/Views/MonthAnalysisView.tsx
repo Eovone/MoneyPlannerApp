@@ -50,9 +50,8 @@ useEffect(() => {
             setCurrentMonthAnalysis(null);
         }        
       };  
-
       fetchMonthAnalysis();
-}, [currentDate]);
+}, [currentDate, JWT, dispatch, userId]);
 
 const handleGenerateMonthAnalysis = async () => {
     let postMonthAnalysisDto: PostMonthAnalysisDto ={

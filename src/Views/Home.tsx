@@ -50,7 +50,7 @@ const Home: FC = () => {
 
         <Row className='mt-5 mb-5 align-items-center'>
           <Col className='text-center col-lg-6 mt-3 col-12'>
-            <h3 className='mp-green-text bg-black rounded-2 p-1'>Sammanfattning</h3>
+            <h3 className='mp-green-text bg-black rounded-2 p-1'>Månadsanalys</h3>
             <p>Om du vill ha en analys för den månaden så behöver du registrera inkomster och utgifter.
               I inkomstsektionen kan du registrera alla dina faktiska inkomstkällor. 
               Det kan vara löneintäkter, bonusar, sidoprojekt eller andra inkomster. 
